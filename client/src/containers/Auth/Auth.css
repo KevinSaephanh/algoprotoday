@@ -1,0 +1,25 @@
+.auth {
+    width: 100vw;
+    text-align: center;
+    color: white;
+    letter-spacing: 0.5px;
+}
+
+.auth h1 {
+    font-size: 2rem;
+    margin: 15px 0;
+}
+
+.auth label {
+    font-size: 1.3rem;
+    margin-right: 15px;
+}
+
+.auth input {
+    height: 30px;
+    width: 250px;
+    margin: 15px 0;
+    border-radius: 10px;
+    padding-left: 10px;
+    font-size: 1rem;
+}

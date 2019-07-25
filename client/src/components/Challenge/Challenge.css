@@ -1,0 +1,71 @@
+.challenge,
+.challengeList {
+    height: 800px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.problem {
+    margin: 0 auto;
+    padding: 0 20px;
+    height: 130px;
+    width: 70vw;
+}
+
+.problem h2 {
+    font-size: 1.7rem;
+    color: whitesmoke;
+    letter-spacing: 1px;
+    padding-bottom: 10px;
+}
+
+.problem h3 {
+    font-size: 1.4rem;
+    padding-bottom: 10px;
+}
+
+.problem p {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: whitesmoke;
+}
+
+.code {
+    width: 70vw;
+    margin: 0 auto;
+}
+
+.code ul {
+    list-style-type: none;
+    display: flex;
+    border: 4px solid navy;
+    margin: 20px 0;
+    height: 50px;
+    width: 65vw;
+}
+
+.code ul li {
+    color: whitesmoke;
+    font-size: 1.1rem;
+    font-weight: bold;
+    padding-top: 15px;
+    margin: 0 15px;
+    width: 100px;
+}
+
+.code ul li:hover {
+    background: whitesmoke;
+    border-radius: 5px;
+    color: black;
+}
+
+.code .aceEditor {
+    border: 4px solid navy;
+    border-radius: 10px;
+}
+
+@media (max-width: 800px) {
+    .code ul li {
+        font-size: 1rem;
+        margin: 0 5px;
+    }
+}

@@ -1,0 +1,6 @@
+export const LOGIN = "LOGIN";
+export const REGISTER = "REGISTER";
+export const USER_ERROR = "USER_ERROR";
+export const GET_CHALLENGES = "GET_CHALLENGES";
+export const CREATE_CHALLENGE = "CREATE_CHALLENGE";
+export const DELETE_CHALLENGE = "DELETE_CHALLENGE";

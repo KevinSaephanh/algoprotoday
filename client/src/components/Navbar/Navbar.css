@@ -1,0 +1,44 @@
+nav {
+    height: 9vh;
+    width: 100vw;
+    margin-top: 10px;
+}
+
+nav ul {
+    float: right;
+    display: flex;
+    margin-right: 20px;
+    list-style-type: none;
+}
+
+nav ul li {
+    height: 20px;
+    padding: 10px;
+    margin-right: 5px;
+}
+
+.navbar-brand {
+    float: left;
+    padding: 10px;
+    margin-left: 15px;
+}
+
+.navbar-brand,
+.nav-item {
+    font-size: 1.25rem;
+    color: white;
+    text-decoration: none;
+}
+
+.navbar-brand:hover,
+.nav-item:hover {
+    color: turquoise;
+}
+
+@media screen and (max-width: 720px) {
+
+    .navbar-brand,
+    .nav-item {
+        font-size: 16px;
+    }
+}

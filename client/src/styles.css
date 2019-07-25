@@ -1,0 +1,48 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: rgb(29, 28, 28);
+    font-family: fantasy;
+}
+
+.container {
+    width: 100vw;
+    text-align: center;
+}
+
+.container button {
+    height: 50px;
+    width: 120px;
+    margin: 15px 0;
+    background: white;
+    border: 5px solid navy;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.15rem;
+    font-weight: bold;
+}
+
+.container button:hover {
+    color: turquoise;
+    border-color: turquoise;
+}
+
+footer {
+    position: absolute;
+    height: 50px;
+    width: 100vw;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+footer p {
+    font-family: fantasy;
+    font-size: 13px;
+    letter-spacing: 0.6px;
+    line-height: 30px;
+    color: whitesmoke;
+}
