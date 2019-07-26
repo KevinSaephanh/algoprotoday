@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+//import { connect } from "react-redux";
+//import { createChallenge } from "../../store/actions/challengeActions";
 
 class CreateChallenge extends Component {
   state = {

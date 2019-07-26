@@ -6,7 +6,7 @@ import "./Navbar.css";
 
 const Navbar = () => {
   return (
-    <nav className="navbar navbar-expand-md">
+    <nav className="navbar">
       <Link to="/" className="navbar-brand">
         AlgoPT
       </Link>

@@ -34,14 +34,21 @@ const initState = {
     {
       id: uuid(),
       title: "Duplicate Characters in String",
-      difficulty: "Easy",
+      difficulty: "Intermediate",
       prompt: "How do you print duplicate characters from a string?",
       solutions: []
     },
     {
       id: uuid(),
-      title: "Vending Machine",
+      title: "The Two Egg Problem",
       difficulty: "Hard",
+      prompt:
+        "A building has 100 floors. One of the floors is the highest floor an egg can be dropped from without breaking.If an egg is dropped from above that floor, it will break. If it is dropped from that floor or below, it will be completely undamaged and you can drop the egg again. Given two eggs, find the highest floor an egg can be dropped from without breaking, with as few drops as possible."
+    },
+    {
+      id: uuid(),
+      title: "Vending Machine",
+      difficulty: "Pro",
       prompt: "How do you design a vending machine?",
       solutions: []
     }

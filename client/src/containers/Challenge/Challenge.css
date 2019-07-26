@@ -1,5 +1,55 @@
-.challenge,
-.challengeList {
+.challenge-list {
+    height: 500px;
+    color: white;
+    margin-top: 50px;
+}
+
+.challenge-list .row {
+    min-height: 250px;
+    width: 100vw;
+    display: flex;
+    margin: 0 auto;
+}
+
+.challenge-list .col {
+    width: 300px;
+}
+
+.challenge-list .col ul {
+    list-style-type: none;
+}
+
+.challenge-list .col ul li {
+    height: 35px;
+}
+
+.list-toggler {
+    letter-spacing: 1px;
+    font-size: 1.2rem;
+    height: 35px;
+}
+
+.list-toggler,
+.challenge-item {
+    width: 300px;
+    cursor: pointer;
+    border: 3px solid white;
+    margin-bottom: 2px;
+}
+
+.challenge-item {
+    padding-top: 5px;
+    height: 25px;
+}
+
+.challenge-item:hover,
+.list-toggler:hover {
+    border-color: turquoise;
+    color: black;
+    background: white;
+}
+
+.challenge {
     height: 800px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }

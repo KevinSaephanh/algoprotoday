@@ -22,15 +22,22 @@ class Register extends Component {
   render() {
     return (
       <div className="auth">
-        <h1>Login</h1>
+        <h1>Register</h1>
         <form onSubmit={this.onSubmit}>
           <div className="input-field">
             <label htmlFor="username">Username</label>
             <input type="text" name="username" onChange={this.onChange} />
           </div>
           <div className="input-field">
-            <label htmlFor="email">Email</label>
-            <input type="email" name="email" onChange={this.onChange} />
+            <label htmlFor="email" style={{ paddingRight: "5px" }}>
+              Email
+            </label>
+            <input
+              type="email"
+              name="email"
+              onChange={this.onChange}
+              style={{ marginLeft: "35px" }}
+            />
           </div>
           <div className="input-field">
             <label htmlFor="password">Password</label>

@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "../store/store";
-import Navbar from "../components/Navbar/Navbar";
+import AppNavbar from "../components/Navbar/Navbar";
 import Home from "./Home/Home";
-import ChallengeList from "../components/Challenge/ChallengeList";
+import ChallengeList from "./Challenge/ChallengeList";
 import Login from "./Auth/Login";
 import Register from "./Auth/Register";
 
@@ -14,7 +14,7 @@ class App extends Component {
       <BrowserRouter>
         <Provider store={store}>
           <div className="container">
-            <Navbar />
+            <AppNavbar />
             <Switch>
               <Route path="/challenges" component={ChallengeList} />
               <Route path="/login" component={Login} />

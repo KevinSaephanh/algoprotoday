@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import ChallengeList from "../../components/Challenge/ChallengeList";
+import ChallengeList from "../Challenge/ChallengeList";
 
 class Profile extends Component {
   componentDidMount() {

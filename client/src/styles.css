@@ -9,8 +9,11 @@ body {
 }
 
 .container {
-    width: 100vw;
+    max-width: 100vw;
+    min-height: 100vh;
     text-align: center;
+    padding-bottom: 50px;
+    position: relative;
 }
 
 .container button {
@@ -21,7 +24,7 @@ body {
     border: 5px solid navy;
     border-radius: 10px;
     cursor: pointer;
-    font-size: 1.15rem;
+    font-size: 1.3rem;
     font-weight: bold;
 }
 
@@ -32,11 +35,9 @@ body {
 
 footer {
     position: absolute;
-    height: 50px;
+    height: 40px;
     width: 100vw;
-    left: 0;
     bottom: 0;
-    right: 0;
 }
 
 footer p {
