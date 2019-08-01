@@ -22,12 +22,13 @@ export const getChallenges = () => dispatch => {
 
 export const getChallenge = () => dispatch => {
   const id = "5d40a568b812160248103396";
-  axios.get(`/api/challenges/${id}`)
-  .then(res => dispatch({
-    type: GET_CHALLENGES,
-    payload: res.data
-  }));
-}
+  axios.get(`/api/challenges/${id}`).then(res =>
+    dispatch({
+      type: GET_CHALLENGES,
+      payload: res.data
+    })
+  );
+};
 
 export const createChallenge = challenge => (dispatch, getState) => {
   axios
