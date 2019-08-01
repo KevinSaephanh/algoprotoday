@@ -1,7 +1,4 @@
 const mongoose = require("mongoose");
-const config = require("../../config");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 const UserSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -28,11 +25,7 @@ const UserSchema = new mongoose.Schema({
     default: Date.now
   },
   isAdmin: {
-    type: Boolean,
-    default: false
-  },
-  token: {
-    type: String
+    type: Boolean
   }
 });
 

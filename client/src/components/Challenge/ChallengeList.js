@@ -20,6 +20,10 @@ class ChallengeList extends Component {
     });
   };
 
+  onClick = e => {
+    e.preventDefault();
+  };
+
   filterChallenges = (challenges, difficulty) => {
     const filteredChallenges = challenges.filter(
       challenge => challenge.difficulty === difficulty
@@ -30,7 +34,7 @@ class ChallengeList extends Component {
   createList = challenges => {
     const list = challenges.map((challenge, i) => {
       return (
-        <li className="challenge-item" key={i}>
+        <li className="challenge-item" key={i} onClick={this.onClick}>
           {challenge.title}
         </li>
       );
@@ -55,6 +59,7 @@ class ChallengeList extends Component {
 
     return (
       <div className="challenge-list">
+        <h2>Select From an Array of Challenges!</h2>
         <div className="row">
           <div className="col">
             <div className="list-toggler" onClick={this.toggle}>
@@ -101,6 +106,7 @@ ChallengeList.protoTypes = {
   challenge: PropTypes.object.isRequired
 };
 
+// Transform Redux store state into props for this component
 const mapStateToProps = state => {
   return {
     challenge: state.challenge

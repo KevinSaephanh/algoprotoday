@@ -1,5 +1,6 @@
 const Joi = require("joi");
 
+// Use joi to validate forms
 const registerValidation = data => {
   const schema = {
     username: Joi.string()
@@ -15,6 +16,7 @@ const registerValidation = data => {
       .min(7)
       .max(255)
       .required()
+      .regex(/^(?=.*[A-Z])(?=.*\d)/)
   };
 
   return Joi.validate(data, schema);
@@ -39,15 +41,15 @@ const challengeValidation = data => {
   const schema = {
     title: Joi.string()
       .min(5)
-      .max(15)
+      .max(55)
       .required(),
     difficulty: Joi.string()
       .min(3)
-      .max(7)
+      .max(15)
       .required(),
     prompt: Joi.string()
       .min(7)
-      .max(200)
+      .max(500)
       .required()
   };
 

@@ -1,4 +1,5 @@
 import React from "react";
+import { Button } from "react-bootstrap";
 import "./Home.css";
 
 const Home = () => {
@@ -10,7 +11,9 @@ const Home = () => {
         <br />
         Gain the necessary skills to ace your next coding interview!
       </p>
-      <button onClick={() => (window.location = "/register")}>Signup</button>
+      <Button variant="light" onClick={() => (window.location = "/register")}>
+        Signup
+      </Button>
     </div>
   );
 };

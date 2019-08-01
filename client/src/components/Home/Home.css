@@ -1,8 +1,10 @@
 .home {
-    height: 65vh;
+    height: 300px;
     width: 100vw;
     margin: 0 auto;
     padding-top: 100px;
+    font-family: fantasy;
+    text-align: center;
 }
 
 .home h1 {
@@ -15,8 +17,9 @@
 .home p {
     font-size: 1.3rem;
     color: whitesmoke;
-    line-height: 40px;
-    margin-bottom: 50px;
+    line-height: 50px;
+    margin-bottom: 40px;
+    letter-spacing: 0.5px;
 }
 
 @media (max-width: 640px) {

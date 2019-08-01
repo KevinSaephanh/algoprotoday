@@ -1,18 +1,22 @@
 import React from "react";
-import { Link } from "react-router-dom";
-//import LoggedInLinks from "./LoggedInLinks";
-import LoggedOutLinks from "./LoggedOutLinks";
+//import NavItems from "./NavItems";
+import { Navbar } from "react-bootstrap";
 import "./Navbar.css";
+import SignedOutLinks from "./LoggedOutLinks";
 
-const Navbar = () => {
+const AppNavbar = () => {
   return (
-    <nav className="navbar">
-      <Link to="/" className="navbar-brand">
-        AlgoPT
-      </Link>
-      <LoggedOutLinks />
-    </nav>
+    <Navbar expand="lg">
+      <Navbar.Brand href="/">AlgoPT</Navbar.Brand>
+      <Navbar.Toggle
+        style={{ background: "white", width: "60px", height: "50px" }}
+        aria-controls="responsive-navbar-nav"
+      />
+      <Navbar.Collapse id="responsive-navbar-nav">
+        <SignedOutLinks />
+      </Navbar.Collapse>
+    </Navbar>
   );
 };
 
-export default Navbar;
+export default AppNavbar;

@@ -1,8 +1,9 @@
-const express = require("express");
+const router = require("express").Router();
 const Challenge = require("../models/Challenge");
-const challengeValidation = require("./validation");
-const router = express.Router();
+const { challengeValidation } = require("../middleware/validation");
+const { verifyToken } = require("../middleware/auth");
 
+// GET ALL CHALLENGES
 router.get("/", async (req, res) => {
   try {
     const challenges = await Challenge.find();
@@ -12,7 +13,8 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
+// GET A SPECIFIC CHALLENGE
+router.get("/:id", verifyToken, async (req, res) => {
   try {
     const challenge = await Challenge.findById(req.params.id);
     return res.status(200).send(challenge);
@@ -21,6 +23,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+// CREATE A CHALLENGE
 router.post("/create", async (req, res) => {
   // Validate data
   const { error } = challengeValidation(req.body);
@@ -28,16 +31,18 @@ router.post("/create", async (req, res) => {
     return res.status(400).send(error.details[0].message);
   }
 
+  const challenge = new Challenge(req.body);
+
   try {
-    const challenge = new Challenge(req.body);
     await challenge.save();
     return res.status(200).send("Successfully created challenge");
   } catch (error) {
-    return res.status(400).send("Creation unsuccessful");
+    return res.status(400).send(error);
   }
 });
 
-router.post("/update/:id", async (req, res) => {
+// UPDATE A CHALLENGE
+router.post("/:id", async (req, res) => {
   // Validate data
   const { error } = challengeValidation(req.body);
   if (error) {
@@ -49,7 +54,6 @@ router.post("/update/:id", async (req, res) => {
       title: req.body.title,
       difficulty: req.body.difficulty,
       prompt: req.body.prompt,
-      userAnswers: req.body.userAnswers,
       solutions: req.body.solutions
     });
     return res.status(200).send("Challenge successfully updated");
@@ -58,6 +62,7 @@ router.post("/update/:id", async (req, res) => {
   }
 });
 
+// DELETE A CHALLENGE
 router.delete("/:id", async (req, res) => {
   try {
     await Challenge.findOneAndDelete({ _id: req.params.id });

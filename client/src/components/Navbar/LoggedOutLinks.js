@@ -1,25 +1,19 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Nav } from "react-bootstrap";
 
 const SignedOutLinks = () => {
   return (
-    <ul className="nav-links">
+    <Nav className="ml-auto">
       <li>
-        <NavLink className="nav-item" to="/challenges">
-          Challenges
-        </NavLink>
+        <Nav.Link href="/challenges">Challenges</Nav.Link>
       </li>
       <li>
-        <NavLink className="nav-item" to="/register">
-          Register
-        </NavLink>
+        <Nav.Link href="/register">Register</Nav.Link>
       </li>
       <li>
-        <NavLink className="nav-item" to="/login">
-          Login
-        </NavLink>
+        <Nav.Link href="/login">Login</Nav.Link>
       </li>
-    </ul>
+    </Nav>
   );
 };
 

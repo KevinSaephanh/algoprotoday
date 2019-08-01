@@ -55,18 +55,18 @@ class Challenge extends Component {
   }
 
   render() {
-    // Change color of difficulty depending on challenge complexity
     const difficultyColor = () => {
       const difficulty = this.state.difficulty;
 
-      if (difficulty === "Easy") {
-        return "green";
-      } else if (difficulty === "Intermediate") {
-        return "blue;";
-      } else if (difficulty === "Hard") {
-        return "red";
-      } else {
-        return "black";
+      switch (difficulty) {
+        case "Easy":
+          return "green";
+        case "Intermediate":
+          return "blue";
+        case "Hard":
+          return "red";
+        default:
+          return "black";
       }
     };
 

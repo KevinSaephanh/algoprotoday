@@ -4,7 +4,7 @@ const ChallengeSchema = new mongoose.Schema({
     type: String,
     unique: true,
     minlength: 5,
-    maxlength: 15,
+    maxlength: 55,
     required: true
   },
   difficulty: {
@@ -18,20 +18,12 @@ const ChallengeSchema = new mongoose.Schema({
     required: true,
     unique: true,
     minlength: 7,
-    maxlength: 200
+    maxlength: 500
   },
-  userAnswers: [
-    {
-      type: String,
-      unique: true,
-      maxlength: 200
-    }
-  ],
   solutions: [
     {
       type: String,
       maxlength: 200,
-      unique: true
     }
   ]
 });

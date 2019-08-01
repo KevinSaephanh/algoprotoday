@@ -4,15 +4,22 @@
     margin-top: 50px;
 }
 
+.challenge-list h2 {
+    margin-bottom: 50px;
+    font-size: 1.7rem;
+}
+
 .challenge-list .row {
     min-height: 250px;
     width: 100vw;
     display: flex;
-    margin: 0 auto;
+    align-content: center;
+    justify-content: center;
 }
 
 .challenge-list .col {
     width: 300px;
+    margin: 0 70px;
 }
 
 .challenge-list .col ul {
@@ -26,7 +33,9 @@
 .list-toggler {
     letter-spacing: 1px;
     font-size: 1.2rem;
-    height: 35px;
+    font-weight: bold;
+    padding-top: 10px;
+    height: 30px;
 }
 
 .list-toggler,

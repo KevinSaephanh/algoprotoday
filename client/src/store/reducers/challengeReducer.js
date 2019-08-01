@@ -1,14 +1,21 @@
 import {
   GET_CHALLENGES,
+  GET_CHALLENGE,
   CREATE_CHALLENGE,
-  DELETE_CHALLENGE
+  DELETE_CHALLENGE,
+  CHALLENGES_LOADING
 } from "../actions/actionTypes";
-import uuid from "uuid";
+
+/*
+  const initState = {
+    challenges: [],
+    loading: false
+  }
+*/
 
 const initState = {
   challenges: [
     {
-      id: uuid(),
       title: "Missing Number in Integer Array",
       difficulty: "Easy",
       prompt:
@@ -16,7 +23,6 @@ const initState = {
       solutions: []
     },
     {
-      id: uuid(),
       title: "Finding Duplicate Number in Integer Array",
       difficulty: "Easy",
       prompt:
@@ -24,7 +30,6 @@ const initState = {
       solutions: []
     },
     {
-      id: uuid(),
       title: "Middle Element in Singly Linked List",
       difficulty: "Easy",
       prompt:
@@ -32,21 +37,19 @@ const initState = {
       solutions: []
     },
     {
-      id: uuid(),
       title: "Duplicate Characters in String",
       difficulty: "Intermediate",
       prompt: "How do you print duplicate characters from a string?",
       solutions: []
     },
     {
-      id: uuid(),
       title: "The Two Egg Problem",
       difficulty: "Hard",
       prompt:
-        "A building has 100 floors. One of the floors is the highest floor an egg can be dropped from without breaking.If an egg is dropped from above that floor, it will break. If it is dropped from that floor or below, it will be completely undamaged and you can drop the egg again. Given two eggs, find the highest floor an egg can be dropped from without breaking, with as few drops as possible."
+        "A building has 100 floors. One of the floors is the highest floor an egg can be dropped from without breaking.If an egg is dropped from above that floor, it will break. If it is dropped from that floor or below, it will be completely undamaged and you can drop the egg again. Given two eggs, find the highest floor an egg can be dropped from without breaking, with as few drops as possible.",
+      solutions: []
     },
     {
-      id: uuid(),
       title: "Vending Machine",
       difficulty: "Pro",
       prompt: "How do you design a vending machine?",
@@ -59,16 +62,31 @@ export default (state = initState, action) => {
   switch (action.type) {
     case GET_CHALLENGES:
       return {
-        ...state
+        ...state,
+        challenges: action.payload,
+        loading: false
+      };
+    case GET_CHALLENGE:
+      return {
+        ...state,
+        challenge: action.payload
       };
     case CREATE_CHALLENGE:
-      return;
+      return {
+        ...state,
+        challenges: [action.payload, ...state.challenges]
+      };
     case DELETE_CHALLENGE:
       return {
         ...state,
         challenges: state.challenges.filter(
-          challenge => challenge.id !== action.payload
+          challenge => challenge._id !== action.payload
         )
+      };
+    case CHALLENGES_LOADING:
+      return {
+        ...state,
+        loading: true
       };
     default:
       return state;
