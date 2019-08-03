@@ -2,31 +2,13 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { login } from "../../store/actions/authActions";
 import { Form, Button } from "react-bootstrap";
-import PropTypes from "prop-types";
 import "./Auth.css";
 
 class Login extends Component {
   state = {
     username: "",
     password: "",
-    errors: {}
   };
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.auth.isAuthenticated) {
-      this.props.history.push("/profile");
-    } else if (nextProps.errors) {
-      this.setState({
-        errors: nextProps.errors
-      });
-    }
-  }
-
-  componentDidMount() {
-    if (this.props.auth.isAuthenticated) {
-      this.props.history.push("/profile");
-    }
-  }
 
   onChange = e => {
     this.setState({
@@ -38,16 +20,18 @@ class Login extends Component {
     window.location = "/register";
   };
 
-  onSubmit = e => {
+  onSubmit = async e => {
     e.preventDefault();
     const user = {
       username: this.state.username,
       password: this.state.password
     };
-    this.props.login(user);
+    await this.props.login(user);
   };
 
   render() {
+    //const { errors } = this.state;
+
     return (
       <div className="auth">
         <h1>Login</h1>
@@ -83,16 +67,10 @@ class Login extends Component {
   }
 }
 
-Login.propTypes = {
-  login: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
-  errors: PropTypes.object
-};
-
 const mapStateToProps = state => {
   return {
-    auth: state.auth,
-    error: state.error
+    user: state.auth,
+    errors: state.error
   };
 };
 

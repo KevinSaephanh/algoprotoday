@@ -2,20 +2,19 @@ import {
   GET_CHALLENGES,
   GET_CHALLENGE,
   CREATE_CHALLENGE,
-  DELETE_CHALLENGE,
-  CHALLENGES_LOADING
+  DELETE_CHALLENGE
 } from "../actions/actionTypes";
 
 /*
   const initState = {
-    challenges: [],
-    loading: false
+    challenges: {}
   }
 */
 
 const initState = {
   challenges: [
     {
+      id: 1,
       title: "Missing Number in Integer Array",
       difficulty: "Easy",
       prompt:
@@ -23,6 +22,7 @@ const initState = {
       solutions: []
     },
     {
+      id: 2,
       title: "Finding Duplicate Number in Integer Array",
       difficulty: "Easy",
       prompt:
@@ -30,6 +30,7 @@ const initState = {
       solutions: []
     },
     {
+      id: 3,
       title: "Middle Element in Singly Linked List",
       difficulty: "Easy",
       prompt:
@@ -37,12 +38,14 @@ const initState = {
       solutions: []
     },
     {
+      id: 4,
       title: "Duplicate Characters in String",
       difficulty: "Intermediate",
       prompt: "How do you print duplicate characters from a string?",
       solutions: []
     },
     {
+      id: 5,
       title: "The Two Egg Problem",
       difficulty: "Hard",
       prompt:
@@ -50,6 +53,7 @@ const initState = {
       solutions: []
     },
     {
+      id: 6,
       title: "Vending Machine",
       difficulty: "Pro",
       prompt: "How do you design a vending machine?",
@@ -64,12 +68,11 @@ export default (state = initState, action) => {
       return {
         ...state,
         challenges: action.payload,
-        loading: false
       };
     case GET_CHALLENGE:
       return {
         ...state,
-        challenge: action.payload
+        challenges: action.payload
       };
     case CREATE_CHALLENGE:
       return {
@@ -82,11 +85,6 @@ export default (state = initState, action) => {
         challenges: state.challenges.filter(
           challenge => challenge._id !== action.payload
         )
-      };
-    case CHALLENGES_LOADING:
-      return {
-        ...state,
-        loading: true
       };
     default:
       return state;

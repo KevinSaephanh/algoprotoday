@@ -1,6 +1,19 @@
 .navbar {
-    height: 70px;
+    min-height: 70px;
+    max-height: 100px;
     width: 100vw;
+}
+
+.navbar-toggler {
+    font-size: 20px !important;
+    background-color: white !important;
+    width: 40px !important;
+    height: 40px !important;
+    margin: 0 !important;
+}
+
+.navbar-toggle .icon-bar {
+    background-color: aliceblue !important;
 }
 
 .navbar-brand,
@@ -22,7 +35,7 @@
 @media screen and (max-width: 700px) {
 
     .navbar-brand,
-    .nav-item {
+    .nav-link {
         font-size: 16px;
     }
 }

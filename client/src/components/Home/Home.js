@@ -11,6 +11,11 @@ const Home = () => {
         <br />
         Gain the necessary skills to ace your next coding interview!
       </p>
+      <div>
+        <Button className="big-btn" variant="light">
+          Sample Challenge
+        </Button>
+      </div>
       <Button variant="light" onClick={() => (window.location = "/register")}>
         Signup
       </Button>

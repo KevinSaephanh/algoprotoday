@@ -32,15 +32,15 @@ const verifyToken = (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1];
   if (!token) {
     return res.status(401).send("Access denied!");
-  } 
+  }
 
   // Validate jwt
   try {
     const decoded = jwt.verify(token, config.SECRET);
-    req.user = decoded; 
+    req.user = decoded;
     next();
   } catch (err) {
-    return res.status(401).send("Auth failed"); 
+    return res.status(401).send("Auth failed");
   }
 };
 

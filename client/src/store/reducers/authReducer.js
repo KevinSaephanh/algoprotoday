@@ -1,50 +1,47 @@
 import {
-  USER_LOADING,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
+  LOGOUT,
   SET_CURRENT_USER
 } from "../actions/actionTypes";
 
 const initState = {
-  isAuthenticated: null,
+  isAuthenticated: false,
   user: {},
-  isLoading: false
+  error: ""
 };
 
 export default (state = initState, action) => {
   switch (action.type) {
-    case USER_LOADING:
-      return {
-        ...state,
-        isLoading: true
-      };
-
     case SET_CURRENT_USER:
       return {
         ...state,
-        isAuthenticated: action.payload,
+        isAuthenticated: true,
         user: action.payload
       };
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
-      localStorage.setItem("jwtToken", action.payload.token);
       return {
         ...state,
         ...action.payload,
-        isAuthenticated: true,
-        isLoading: false
+        isAuthenticated: true
       };
     case LOGIN_FAIL:
     case REGISTER_FAIL:
+      return {
+        ...state,
+        isAuthenticated: false,
+        error: action.payload
+      };
+    case LOGOUT:
       localStorage.removeItem("jwtToken");
       return {
         ...state,
         token: null,
         user: null,
-        isAuthenticated: false,
-        isLoading: false
+        isAuthenticated: false
       };
     default:
       return state;

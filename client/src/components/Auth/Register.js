@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { register } from "../../store/actions/authActions";
 import { Form, Button } from "react-bootstrap";
@@ -9,20 +8,11 @@ class Register extends Component {
   state = {
     username: "",
     email: "",
-    password: "",
-    errors: {}
+    password: ""
   };
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
-      this.setState({
-        errors: nextProps.errors
-      });
-    }
-  }
-
   componentDidMount() {
-    if (this.props.auth.isAuthenticated) {
+    if (this.props.user.isAuthenticated) {
       this.props.history.push("/profile");
     }
   }
@@ -37,19 +27,18 @@ class Register extends Component {
     window.location = "/login";
   };
 
-  onSubmit = e => {
-    e.preventDefault();
-    console.log(JSON.stringify(this.state));
+  onSubmit = async e => {
     const newUser = {
       username: this.state.username,
       email: this.state.email,
       password: this.state.password
     };
 
-    this.props.register(newUser, this.props.history);
+    await this.props.register(newUser, this.props.history);
   };
 
   render() {
+    //const { errors } = this.state;
     return (
       <div className="auth">
         <h1>Register</h1>
@@ -88,16 +77,10 @@ class Register extends Component {
   }
 }
 
-Register.propTypes = {
-  register: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
-  errors: PropTypes.object
-};
-
 const mapStateToProps = state => {
   return {
-    auth: state.auth,
-    errors: state.errors
+    user: state.auth,
+    errors: state.error
   };
 };
 

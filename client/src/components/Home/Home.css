@@ -1,7 +1,6 @@
 .home {
-    height: 300px;
+    max-height: 400px;
     width: 100vw;
-    margin: 0 auto;
     padding-top: 100px;
     font-family: fantasy;
     text-align: center;
@@ -11,23 +10,31 @@
     font-size: 2.5rem;
     letter-spacing: 1.2px;
     color: whitesmoke;
-    margin-bottom: 35px;
+    margin-bottom: 15px;
 }
 
 .home p {
     font-size: 1.3rem;
     color: whitesmoke;
     line-height: 50px;
-    margin-bottom: 40px;
+    margin-bottom: 10px;
     letter-spacing: 0.5px;
 }
 
-@media (max-width: 640px) {
+.home .big-btn {
+    width: 200px;
+}
+
+@media (max-width: 700px) {
     .home h1 {
-        font-size: 5vw;
+        font-size: 2rem;
     }
 
     .home p {
         font-size: 1rem;
+    }
+
+    .home .big-btn {
+        width: 150px !important;
     }
 }

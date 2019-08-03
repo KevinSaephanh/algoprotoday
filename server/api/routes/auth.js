@@ -68,12 +68,16 @@ router.post("/login", async (req, res) => {
     });
     await compare(req.body.password, user.password);
   } catch (error) {
-    return res.status(400).send("Username/password is incorrect");
+    return res.status(400).send({ error: "Username/password is incorrect" });
   }
 
   // Sign token
   const token = generateAuthToken(user);
-  res.header("auth-token", token).send(token);
+  res.header("auth-token", token).send({
+    id: user._id,
+    username: user.username,
+    token: token
+  });
 });
 
 // GET USERS
