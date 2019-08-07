@@ -1,8 +1,27 @@
 import React from "react";
 import { connect } from "react-redux";
+import { logout } from "../../store/actions/authActions";
 import { Nav } from "react-bootstrap";
 
 const NavItems = ({ user }) => {
+  const SignOut = async e => {
+    //e.preventDefault();
+    console.log("Logging out");
+    await logout;
+    localStorage.removeItem("jwtToken");
+    localStorage.removeItem("auth");
+    window.location.href = "/";
+  };
+
+  const profileURL = () => {
+    if (localStorage.getItem("auth")) {
+      const auth = JSON.parse(localStorage.getItem("auth"));
+      return `/${auth.user}`;
+    } else {
+      return "/";
+    }
+  };
+
   const items = [
     {
       text: "Mock",
@@ -16,7 +35,7 @@ const NavItems = ({ user }) => {
     },
     {
       text: "Profile",
-      link: "/user",
+      link: `/profile${profileURL()}`,
       restricted: true
     },
     {
@@ -34,13 +53,14 @@ const NavItems = ({ user }) => {
     {
       text: "Logout",
       link: "/",
+      onClick: SignOut,
       restricted: true
     }
   ];
 
   // Create link
   const element = (item, i) => (
-    <Nav.Link key={i} href={item.link}>
+    <Nav.Link key={i} href={item.link} onClick={item.onClick}>
       {item.text}
     </Nav.Link>
   );
@@ -66,4 +86,7 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(NavItems);
+export default connect(
+  mapStateToProps,
+  { logout }
+)(NavItems);

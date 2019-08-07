@@ -14,7 +14,7 @@ import Footer from "./components/Footer/Footer";
 import PrivateRoute from "./components/private-routes/privateRoute";
 import Profile from "./components/private-routes/Profile/Profile";
 import Challenge from "./components/private-routes/Challenge/Challenge"; // Not private right now
-import MockInterview from "./components/MockInterview/MockInterview";
+import MockInterview from "./components/private-routes/MockInterview/MockInterview";
 
 const routes = () => {
   return (

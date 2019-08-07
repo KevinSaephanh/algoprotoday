@@ -12,8 +12,10 @@ class Register extends Component {
   };
 
   componentDidMount() {
-    if (this.props.user.isAuthenticated) {
-      this.props.history.push("/profile");
+    const { user } = this.props;
+    const username = JSON.parse(localStorage.getItem("user"));
+    if (user.isAuthenticated) {
+      this.props.history.push(`/profile/${username.username}`);
     }
   }
 
@@ -24,17 +26,19 @@ class Register extends Component {
   };
 
   onClick = e => {
-    window.location = "/login";
+    window.location.href = "/login";
   };
 
   onSubmit = async e => {
+    e.preventDefault();
     const newUser = {
       username: this.state.username,
       email: this.state.email,
       password: this.state.password
     };
 
-    await this.props.register(newUser, this.props.history);
+    await this.props.register(newUser);
+    this.props.history.push("/login");
   };
 
   render() {
@@ -79,8 +83,7 @@ class Register extends Component {
 
 const mapStateToProps = state => {
   return {
-    user: state.auth,
-    errors: state.error
+    user: state.auth
   };
 };
 

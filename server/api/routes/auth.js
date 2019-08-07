@@ -65,7 +65,7 @@ router.post("/login", async (req, res) => {
   try {
     user = await User.findOne({
       username: new RegExp("\\b" + req.body.username + "\\b", "i")
-    });
+    }); 
     await compare(req.body.password, user.password);
   } catch (error) {
     return res.status(400).send({ error: "Username/password is incorrect" });
@@ -73,11 +73,7 @@ router.post("/login", async (req, res) => {
 
   // Sign token
   const token = generateAuthToken(user);
-  res.header("auth-token", token).send({
-    id: user._id,
-    username: user.username,
-    token: token
-  });
+  res.header("auth-token", token).send({ token });
 });
 
 // GET USERS

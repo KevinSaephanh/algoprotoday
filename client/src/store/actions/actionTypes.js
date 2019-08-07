@@ -1,6 +1,3 @@
-// USER
-export const SET_CURRENT_USER = "SET_CURRENT_USER";
-
 // AUTH
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAIL = "LOGIN_FAIL";
@@ -14,7 +11,3 @@ export const GET_CHALLENGE = "GET_CHALLENGE";
 export const CREATE_CHALLENGE = "CREATE_CHALLENGE";
 export const UPDATE_CHALLENGE = "UPDATE_CHALLENGE";
 export const DELETE_CHALLENGE = "DELETE_CHALLENGE";
-
-// ERRORS
-export const GET_ERRORS = "GET_ERRORS";
-export const CLEAR_ERRORS = "CLEAR_ERRORS";

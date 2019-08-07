@@ -7,8 +7,16 @@ import "./Auth.css";
 class Login extends Component {
   state = {
     username: "",
-    password: "",
+    password: ""
   };
+
+  componentDidMount() {
+    const { user } = this.props;
+    const auth = JSON.parse(localStorage.getItem("auth"));
+    if (user.isAuthenticated) {
+      //this.props.history.push(`/profile/${auth.user.username}`);
+    }
+  }
 
   onChange = e => {
     this.setState({
@@ -17,20 +25,23 @@ class Login extends Component {
   };
 
   onClick = e => {
-    window.location = "/register";
+    window.location.href = "/register";
   };
 
   onSubmit = async e => {
     e.preventDefault();
-    const user = {
+    const userData = {
       username: this.state.username,
       password: this.state.password
     };
-    await this.props.login(user);
+    await this.props.login(userData);
+
+    const auth = JSON.parse(localStorage.getItem("user"));
+    //this.props.history.push(`/profile/${auth.username}`);
   };
 
   render() {
-    //const { errors } = this.state;
+    const { error } = this.props;
 
     return (
       <div className="auth">
@@ -44,6 +55,7 @@ class Login extends Component {
               placeholder="Enter username"
               onChange={this.onChange}
             />
+            {error && <span style={{ color: "white" }}>{error}</span>}
           </div>
           <div className="input-field">
             <Form.Label>Password</Form.Label>
@@ -53,6 +65,7 @@ class Login extends Component {
               placeholder="Enter password"
               onChange={this.onChange}
             />
+            {error && <span style={{ color: "white" }}>{error}</span>}
           </div>
           <Button variant="light" type="submit" name="login">
             Login
@@ -70,7 +83,7 @@ class Login extends Component {
 const mapStateToProps = state => {
   return {
     user: state.auth,
-    errors: state.error
+    error: state.auth.error
   };
 };
 

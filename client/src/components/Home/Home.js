@@ -1,8 +1,14 @@
 import React from "react";
+import { connect } from "react-redux";
 import { Button } from "react-bootstrap";
 import "./Home.css";
 
-const Home = () => {
+const Home = ({ user }) => {
+  // if(user.isAuthenticated) {
+  //   const username = JSON.parse(localStorage.getItem("user"));
+  //   window.location.href = `/profile/${username.username}`;
+  // }
+
   return (
     <div className="home">
       <h1>Welcome to AlgoProToday</h1>
@@ -23,4 +29,10 @@ const Home = () => {
   );
 };
 
-export default Home;
+const mapStateToProps = state => {
+  return {
+    user: state.auth
+  };
+};
+
+export default connect(mapStateToProps)(Home);

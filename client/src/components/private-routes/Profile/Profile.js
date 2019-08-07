@@ -3,10 +3,16 @@ import { connect } from "react-redux";
 import "./Profile.css";
 
 class Profile extends Component {
+  componentDidMount() {
+    
+  }
+
   render() {
+    const { username } = this.props.user.user;
+    console.log(username);
     return (
       <div className="profile">
-        <h2>Hello!</h2>
+        <h2>Hello</h2>
       </div>
     );
   }
@@ -14,7 +20,7 @@ class Profile extends Component {
 
 const mapStatetoProps = state => {
   return {
-    username: state.auth
+    user: state.auth
   };
 };
 

@@ -11,7 +11,7 @@ const AppNavbar = () => {
         className="navbar-toggler"
         aria-controls="responsive-navbar-nav"
       />
-      <Navbar.Collapse id="responsive-navbar-nav">
+      <Navbar.Collapse className="navbar-collapse" id="responsive-navbar-nav">
         <NavItems />
       </Navbar.Collapse>
     </Navbar>

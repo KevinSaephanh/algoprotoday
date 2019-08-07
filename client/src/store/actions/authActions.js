@@ -2,36 +2,24 @@ import axios from "axios";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "../../utils/setAuthToken";
 import {
-  SET_CURRENT_USER,
   REGISTER_FAIL,
   REGISTER_SUCCESS,
   LOGIN_FAIL,
   LOGIN_SUCCESS,
-  LOGOUT,
-  GET_ERRORS
+  LOGOUT
 } from "./actionTypes";
 
-/*
-Step 1: Use the data and make HTTP request to backend
-Step 2: Take backend's response (jwtToken)
-Step 3: Dispatch user just registered with jwtToken
-Step 4: Save the jwtToken into localStorage
-*/
-export const register = (userData, history) => {
+export const register = userData => {
   return async dispatch => {
     try {
       await axios.post("/api/users/register", userData);
       dispatch({
         type: REGISTER_SUCCESS
       });
-      history.push("/login");
     } catch (err) {
       dispatch({
-        type: REGISTER_FAIL
-      });
-      dispatch({
-        type: GET_ERRORS,
-        payload: err
+        type: REGISTER_FAIL,
+        payload: console.error(err)
       });
     }
   };
@@ -41,54 +29,47 @@ export const login = userData => {
   return async dispatch => {
     try {
       const res = await axios.post("/api/users/login", userData);
-      dispatch({
-        type: LOGIN_SUCCESS
-      });
-      //Create and set token
+      //Create and set token in localStorage
       const { token } = res.data;
-      localStorage.setItem("jwtToken", token);
       setAuthToken(token);
+      localStorage.setItem("jwtToken", token);
 
-      // Decode token and set user
+      // Decode token and set user in localStorage
       const decoded = jwt_decode(token);
       const user = {
-        id: res.data.id,
-        username: res.data.username,
+        username: userData.username,
         token: decoded
       };
-      dispatch(setCurrentUser(user));
-      window.location = `/profile/${user.id}`;
+      //localStorage.setItem("user", JSON.stringify(user));
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: user
+      });
     } catch (err) {
       dispatch({
-        type: LOGIN_FAIL
-      });
-
-      dispatch({
-        type: GET_ERRORS,
-        payload: err
+        type: LOGIN_FAIL,
+        payload: console.error(err)
       });
     }
   };
 };
 
-export const setCurrentUser = user => {
-  return {
-    type: SET_CURRENT_USER,
-    payload: user
-  };
-};
-
 export const logout = () => {
+  console.log("LOGGING OUTTTTT");
   return dispatch => {
     dispatch({
       type: LOGOUT
     });
 
-    // Remove token from local storage
+    // Remove contents from local storage
     localStorage.removeItem("jwtToken");
+    localStorage.removeItem("user");
     // Remove auth header for future requests
     setAuthToken(false);
-    // Set current user to empty object
-    dispatch(setCurrentUser({}));
+    // // Reset state
+    // dispatch({
+    //   type: LOGIN_SUCCESS,
+    //   payload: {}
+    // });
   };
 };

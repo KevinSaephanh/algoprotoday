@@ -59,7 +59,8 @@ const initState = {
       prompt: "How do you design a vending machine?",
       solutions: []
     }
-  ]
+  ],
+  error: ""
 }; // Change this later
 
 export default (state = initState, action) => {
@@ -68,23 +69,27 @@ export default (state = initState, action) => {
       return {
         ...state,
         challenges: action.payload,
+        error: ""
       };
     case GET_CHALLENGE:
       return {
         ...state,
-        challenges: action.payload
+        challenges: action.payload,
+        error: ""
       };
     case CREATE_CHALLENGE:
       return {
         ...state,
-        challenges: [action.payload, ...state.challenges]
+        challenges: [action.payload, ...state.challenges],
+        error: ""
       };
     case DELETE_CHALLENGE:
       return {
         ...state,
         challenges: state.challenges.filter(
           challenge => challenge._id !== action.payload
-        )
+        ),
+        error: ""
       };
     default:
       return state;
