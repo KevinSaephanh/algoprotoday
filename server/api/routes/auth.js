@@ -18,9 +18,7 @@ router.post("/register", async (req, res) => {
     return res.status(400).send(error.details[0].message);
   }
 
-  const username = req.body.username;
-  const email = req.body.email.toLowerCase();
-  const password = req.body.password;
+  const { username, email, password } = req.body;
 
   // Check for duplicate username
   const usernameExists = await User.findOne({ username: username });
@@ -29,7 +27,7 @@ router.post("/register", async (req, res) => {
   }
 
   // Check for duplicate email
-  const emailExists = await User.findOne({ email: email });
+  const emailExists = await User.findOne({ email: email.toLowerCase() });
   if (emailExists) {
     return res.status(400).send("Email is already in use");
   }
@@ -40,7 +38,7 @@ router.post("/register", async (req, res) => {
   // Create and save new user
   const newUser = new User({
     username: username,
-    email: email,
+    email: email.toLowerCase(),
     password: hashedPassword
   });
 
@@ -63,10 +61,11 @@ router.post("/login", async (req, res) => {
   // Find username and password
   let user;
   try {
+    const { username, password } = req.body;
     user = await User.findOne({
-      username: new RegExp("\\b" + req.body.username + "\\b", "i")
-    }); 
-    await compare(req.body.password, user.password);
+      username: new RegExp("\\b" + username + "\\b", "i")
+    });
+    await compare(password, user.password);
   } catch (error) {
     return res.status(400).send({ error: "Username/password is incorrect" });
   }
@@ -104,9 +103,7 @@ router.post("/:id", async (req, res) => {
     return res.status(400).send(error.details[0].message);
   }
 
-  const username = req.body.username;
-  const email = req.body.email.toLowerCase();
-  const password = req.body.password;
+  const { username, email, password } = req.body;
 
   // Hash password
   const hashedPassword = await hashPassword(password);
@@ -117,7 +114,7 @@ router.post("/:id", async (req, res) => {
       {
         $set: {
           username: username,
-          email: email,
+          email: email.toLowerCase(),
           password: hashedPassword
         }
       },

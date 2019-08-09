@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Button } from "react-bootstrap";
+import { Button } from "reactstrap";
 import "./Home.css";
 
 const Home = ({ user }) => {
@@ -17,12 +17,7 @@ const Home = ({ user }) => {
         <br />
         Gain the necessary skills to ace your next coding interview!
       </p>
-      <div>
-        <Button className="big-btn" variant="light">
-          Sample Challenge
-        </Button>
-      </div>
-      <Button variant="light" onClick={() => (window.location = "/register")}>
+      <Button className=".btn" onClick={() => (window.location = "/register")}>
         Signup
       </Button>
     </div>

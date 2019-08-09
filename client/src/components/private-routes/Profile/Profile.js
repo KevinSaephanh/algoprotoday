@@ -4,15 +4,17 @@ import "./Profile.css";
 
 class Profile extends Component {
   componentDidMount() {
-    
+    const { user } = this.props;
+    if (!user.isAuthenticated) {
+      window.location.href = "/";
+    }
   }
 
   render() {
-    const { username } = this.props.user.user;
-    console.log(username);
+    const { username } = this.props.user;
     return (
       <div className="profile">
-        <h2>Hello</h2>
+        <h2>Hello {username}!</h2>
       </div>
     );
   }

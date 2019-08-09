@@ -33,6 +33,11 @@ router.post("/create", async (req, res) => {
 
   const challenge = new Challenge(req.body);
 
+  const duplicate = await Challenge.findOne({ title: challenge.title });
+  if (duplicate) {
+    return res.status(400).send("Challenge title is already taken");
+  }
+
   try {
     await challenge.save();
     return res.status(200).send("Successfully created challenge");
@@ -50,11 +55,12 @@ router.post("/:id", async (req, res) => {
   }
 
   try {
+    const { title, difficulty, prompt, solutions } = req.body;
     await Challenge.findByIdAndUpdate(req.params.id, {
-      title: req.body.title,
-      difficulty: req.body.difficulty,
-      prompt: req.body.prompt,
-      solutions: req.body.solutions
+      title: title,
+      difficulty: difficulty,
+      prompt: prompt,
+      solutions: solutions
     });
     return res.status(200).send("Challenge successfully updated");
   } catch (error) {

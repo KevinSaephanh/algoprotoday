@@ -4,6 +4,7 @@ import { LOGIN_SUCCESS } from "./store/actions/actionTypes";
 import store from "./store/store";
 import Routes from "./routes";
 import "./App.css";
+import "bootstrap/dist/css/bootstrap.css";
 
 class App extends Component {
   componentDidMount() {

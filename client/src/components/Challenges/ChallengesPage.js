@@ -1,11 +1,28 @@
 import React, { Component } from "react";
-import { Row } from "react-bootstrap";
 import { connect } from "react-redux";
 import { getChallenges } from "../../store/actions/challengeActions";
-import ChallengeList from "./ChallengeList";
+import ChallengeTable from "./ChallengeTable";
 import "./Challenges.css";
 
 class ChallengesPage extends Component {
+  state = {
+    challenges: []
+  };
+
+  async componentDidMount() {
+    if (!this.props.challenges.length) {
+      try {
+        await this.props.getChallenges();
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    const { challenges } = this.props;
+    this.setState({
+      challenges
+    });
+  }
+
   filterChallenges = (challenges, difficulty) => {
     const filteredChallenges = challenges.filter(
       challenge => challenge.difficulty === difficulty
@@ -23,23 +40,14 @@ class ChallengesPage extends Component {
   };
 
   render() {
-    const { challenges } = this.props;
-    const easyChals = this.filterChallenges(challenges, "Easy");
-    const intermediateChals = this.filterChallenges(challenges, "Intermediate");
-    const hardChals = this.filterChallenges(challenges, "Hard");
-    const proChals = this.filterChallenges(challenges, "Pro");
-    const list = [easyChals, intermediateChals, hardChals, proChals];
-
+    console.log(this.state.challenges);
     return (
       <div className="challenges-page">
         <h2>Select From an Array of Challenges</h2>
-        <Row>
-          {list.map((item, i) => {
-            return (
-              <ChallengeList challenges={item} key={i} onClick={this.onClick} />
-            );
-          })}
-        </Row>
+        <ChallengeTable
+          challenges={this.state.challenges}
+          onClick={this.onClick}
+        />
       </div>
     );
   }

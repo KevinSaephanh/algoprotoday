@@ -1,3 +1,10 @@
+.profile {
+    min-width: 350px;
+    min-height: 400px;
+    text-align: center;
+    padding: 25px 0;
+}
+
 .profile h2 {
     color: white;
     font-size: 2rem;

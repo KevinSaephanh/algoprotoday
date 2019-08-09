@@ -1,21 +1,30 @@
-import React from "react";
+import React, { Component } from "react";
 import NavItems from "./NavItems";
-import { Navbar } from "react-bootstrap";
+import { Navbar, NavbarBrand, NavbarToggler, Collapse } from "reactstrap";
 import "./Navbar.css";
 
-const AppNavbar = () => {
-  return (
-    <Navbar expand="lg">
-      <Navbar.Brand href="/">AlgoPT</Navbar.Brand>
-      <Navbar.Toggle
-        className="navbar-toggler"
-        aria-controls="responsive-navbar-nav"
-      />
-      <Navbar.Collapse className="navbar-collapse" id="responsive-navbar-nav">
-        <NavItems />
-      </Navbar.Collapse>
-    </Navbar>
-  );
-};
+class AppNavbar extends Component {
+  state = {
+    isOpen: false
+  };
+
+  toggle = () => {
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
+  };
+
+  render() {
+    return (
+      <Navbar expand="md">
+        <NavbarBrand href="/">AlgoPT</NavbarBrand>
+        <NavbarToggler className="navbar-toggler" onClick={this.toggle} />
+        <Collapse className="navbar-collapse" isOpen={this.state.isOpen} navbar>
+          <NavItems />
+        </Collapse>
+      </Navbar>
+    );
+  }
+}
 
 export default AppNavbar;

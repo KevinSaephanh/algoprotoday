@@ -2,18 +2,15 @@
     min-height: 70px;
     max-height: 100px;
     width: 100vw;
-}
-
-.navbar-toggler {
-    font-size: 20px !important;
-    background-color: white !important;
-    width: 40px !important;
-    height: 40px !important;
     margin: 0 !important;
 }
 
-.navbar-toggle .icon-bar {
-    background-color: aliceblue !important;
+.navbar-toggler {
+    background-color: whitesmoke !important;
+    max-width: 30px;
+    height: 30px !important;
+    margin: 0 !important;
+    transform: rotate(135deg);
 }
 
 .navbar-brand,
@@ -21,6 +18,7 @@
     color: white !important;
     font-size: 1.3rem;
     font-weight: bold;
+    margin: 0 !important;
 }
 
 .navbar-brand:hover,
@@ -51,6 +49,6 @@
 
     .navbar-brand,
     .nav-link {
-        font-size: 16px;
+        font-size: 16px !important;
     }
 }

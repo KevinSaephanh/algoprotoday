@@ -1,48 +1,45 @@
 .challenges-page {
     min-height: 600px;
     width: 100vw;
-    color: white;
-    margin-top: 50px;
+    margin: 25px 0;
 }
 
 .challenges-page h2 {
     font-size: 1.7rem;
     text-align: center;
-    margin: 25px 0;
+    margin: 35px 0;
 }
 
-.challenge-list {
-    list-style-type: none;
-    margin: 25px;
+.challenges-page table {
+    width: 800px;
+    margin: 0 auto;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    border: 2px solid white;
 }
 
-.challenge-list li {
-    height: 35px;
-    width: 300px;
+.challenges-page .title {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-}
-
-.challenge-item {
-    width: 300px;
     cursor: pointer;
-    border: 3px solid white;
-    margin-bottom: 2px;
+    color: blueviolet;
 }
 
-.challenge-item {
-    padding: 5px;
-}
-
-.challenge-item:hover {
-    border-color: turquoise;
-    color: black;
-    background: white;
+.challenges-page .title:hover {
+    color: turquoise;
+    transition: all 0.4s ease-in;
 }
 
 @media (max-width: 700px) {
-    .challenges-page .col {
-        display: block !important;
+    .challenges-page h2 {
+        font-size: 1rem;
+    }
+
+    .challenges-page table {
+        width: 400px;
+        font-size: 12px;
     }
 }

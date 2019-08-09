@@ -23,7 +23,7 @@ const ChallengeSchema = new mongoose.Schema({
   solutions: [
     {
       type: String,
-      maxlength: 200,
+      maxlength: 200
     }
   ]
 });

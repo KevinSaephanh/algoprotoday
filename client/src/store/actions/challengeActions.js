@@ -2,7 +2,9 @@ import axios from "axios";
 import {
   GET_CHALLENGES,
   CREATE_CHALLENGE,
-  DELETE_CHALLENGE
+  UPDATE_CHALLENGE,
+  DELETE_CHALLENGE,
+  CHALLENGE_ERROR
 } from "./actionTypes";
 
 export const getChallenges = () => {
@@ -14,6 +16,10 @@ export const getChallenges = () => {
         payload: res.data
       });
     } catch (err) {
+      dispatch({
+        type: CHALLENGE_ERROR,
+        payload: console.error(err)
+      });
     }
   };
 };
@@ -28,7 +34,10 @@ export const getChallenge = () => {
         payload: res.data
       });
     } catch (err) {
-      
+      dispatch({
+        type: CHALLENGE_ERROR,
+        payload: console.error(err)
+      });
     }
   };
 };
@@ -39,6 +48,27 @@ export const createChallenge = challenge => {
       const res = await axios.post("/api/challenges", challenge);
       dispatch({ type: CREATE_CHALLENGE, payload: res.data });
     } catch (err) {
+      dispatch({
+        type: CHALLENGE_ERROR,
+        payload: console.error(err)
+      });
+    }
+  };
+};
+
+export const updateChallenge = id => {
+  return async dispatch => {
+    try {
+      const res = await axios.post(`/api/challenges/${id}`);
+      dispatch({
+        type: UPDATE_CHALLENGE,
+        payload: res.data
+      });
+    } catch (err) {
+      dispatch({
+        type: CHALLENGE_ERROR,
+        payload: console.error(err)
+      });
     }
   };
 };
@@ -52,6 +82,10 @@ export const deleteChallenge = id => {
         payload: id
       });
     } catch (err) {
+      dispatch({
+        type: CHALLENGE_ERROR,
+        payload: console.error(err)
+      });
     }
   };
 };

@@ -40,7 +40,7 @@ export const login = userData => {
         username: userData.username,
         token: decoded
       };
-      //localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("user", JSON.stringify(user));
       dispatch({
         type: LOGIN_SUCCESS,
         payload: user

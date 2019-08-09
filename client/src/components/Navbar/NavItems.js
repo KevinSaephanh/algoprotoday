@@ -1,13 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
 import { logout } from "../../store/actions/authActions";
-import { Nav } from "react-bootstrap";
+import { Nav, NavItem, NavLink } from "reactstrap";
 
 const NavItems = ({ user }) => {
   const SignOut = async e => {
-    //e.preventDefault();
+    e.preventDefault();
     console.log("Logging out");
-    await logout;
+    //await logout;
     localStorage.removeItem("jwtToken");
     localStorage.removeItem("auth");
     window.location.href = "/";
@@ -15,8 +15,7 @@ const NavItems = ({ user }) => {
 
   const profileURL = () => {
     if (localStorage.getItem("auth")) {
-      const auth = JSON.parse(localStorage.getItem("auth"));
-      return `/${auth.user}`;
+      return `/${user.username}`;
     } else {
       return "/";
     }
@@ -60,9 +59,11 @@ const NavItems = ({ user }) => {
 
   // Create link
   const element = (item, i) => (
-    <Nav.Link key={i} href={item.link} onClick={item.onClick}>
-      {item.text}
-    </Nav.Link>
+    <NavItem key={i}>
+      <NavLink href={item.link} onClick={item.onClick}>
+        {item.text}
+      </NavLink>
+    </NavItem>
   );
 
   // Show links depending on auth status
@@ -77,7 +78,11 @@ const NavItems = ({ user }) => {
         })
       : null;
 
-  return <Nav className="ml-auto">{showItems()}</Nav>;
+  return (
+    <Nav className="ml-auto" navbar>
+      {showItems()}
+    </Nav>
+  );
 };
 
 const mapStateToProps = state => {

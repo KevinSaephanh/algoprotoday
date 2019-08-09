@@ -1,5 +1,5 @@
 .home {
-    max-height: 400px;
+    height: 350px;
     width: 100vw;
     padding-top: 100px;
     font-family: fantasy;
@@ -21,10 +21,6 @@
     letter-spacing: 0.5px;
 }
 
-.home .big-btn {
-    width: 200px;
-}
-
 @media (max-width: 700px) {
     .home h1 {
         font-size: 2rem;
@@ -32,9 +28,5 @@
 
     .home p {
         font-size: 1rem;
-    }
-
-    .home .big-btn {
-        width: 150px !important;
     }
 }

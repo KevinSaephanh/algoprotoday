@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { login } from "../../store/actions/authActions";
-import { Form, Button } from "react-bootstrap";
+import { Form, Label, Input, Button } from "reactstrap";
 import "./Auth.css";
 
 class Login extends Component {
@@ -12,9 +12,8 @@ class Login extends Component {
 
   componentDidMount() {
     const { user } = this.props;
-    const auth = JSON.parse(localStorage.getItem("auth"));
     if (user.isAuthenticated) {
-      //this.props.history.push(`/profile/${auth.user.username}`);
+      window.location.href = `/profile/${user.username}`;
     }
   }
 
@@ -36,8 +35,8 @@ class Login extends Component {
     };
     await this.props.login(userData);
 
-    const auth = JSON.parse(localStorage.getItem("user"));
-    //this.props.history.push(`/profile/${auth.username}`);
+    const { user } = this.props;
+    window.location.href = `/profile/${user.user.username}`;
   };
 
   render() {
@@ -48,8 +47,8 @@ class Login extends Component {
         <h1>Login</h1>
         <Form onSubmit={this.onSubmit}>
           <div className="input-field">
-            <Form.Label>Username</Form.Label>
-            <Form.Control
+            <Label>Username</Label>
+            <Input
               type="text"
               name="username"
               placeholder="Enter username"
@@ -58,8 +57,8 @@ class Login extends Component {
             {error && <span style={{ color: "white" }}>{error}</span>}
           </div>
           <div className="input-field">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
+            <Label>Password</Label>
+            <Input
               type="password"
               name="password"
               placeholder="Enter password"
@@ -67,7 +66,7 @@ class Login extends Component {
             />
             {error && <span style={{ color: "white" }}>{error}</span>}
           </div>
-          <Button variant="light" type="submit" name="login">
+          <Button className="btn" type="submit" name="login">
             Login
           </Button>
           <p>

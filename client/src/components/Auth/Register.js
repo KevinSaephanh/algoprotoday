@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { register } from "../../store/actions/authActions";
-import { Form, Button } from "react-bootstrap";
+import { Form, Label, Input, Button } from "reactstrap";
 import "./Auth.css";
 
 class Register extends Component {
@@ -13,9 +13,8 @@ class Register extends Component {
 
   componentDidMount() {
     const { user } = this.props;
-    const username = JSON.parse(localStorage.getItem("user"));
     if (user.isAuthenticated) {
-      this.props.history.push(`/profile/${username.username}`);
+      window.location.href = `/profile/${user.username}`;
     }
   }
 
@@ -38,7 +37,7 @@ class Register extends Component {
     };
 
     await this.props.register(newUser);
-    this.props.history.push("/login");
+    window.location.href = "/login";
   };
 
   render() {
@@ -47,28 +46,28 @@ class Register extends Component {
       <div className="auth">
         <h1>Register</h1>
         <Form onSubmit={this.onSubmit}>
-          <Form.Label>Username</Form.Label>
-          <Form.Control
+          <Label>Username</Label>
+          <Input
             type="text"
             name="username"
             placeholder="Enter username"
             onChange={this.onChange}
           />
-          <Form.Label>Email</Form.Label>
-          <Form.Control
+          <Label>Email</Label>
+          <Input
             type="email"
             name="email"
             placeholder="Enter email"
             onChange={this.onChange}
           />
-          <Form.Label>Password</Form.Label>
-          <Form.Control
+          <Label>Password</Label>
+          <Input
             type="password"
             name="password"
             placeholder="Enter password"
             onChange={this.onChange}
           />
-          <Button variant="light" type="submit" name="register">
+          <Button className="btn" type="submit" name="register">
             Register
           </Button>
           <p>
