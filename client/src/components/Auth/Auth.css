@@ -36,6 +36,11 @@ p {
     margin-top: 15px;
 }
 
+.auth .error {
+    color: red;
+    font-size: 13px;
+}
+
 .auth strong {
     color: blue;
     cursor: pointer;

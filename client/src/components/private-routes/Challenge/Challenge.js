@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-//import brace from "brace";
 import AceEditor from "react-ace";
 import "brace/mode/jsx";
 import "brace/theme/github";
@@ -88,7 +87,6 @@ class Challenge extends Component {
             theme="chaos"
             editorProps={{ $blockScrolling: true }}
             height="500px"
-            width="65vw"
             className="aceEditor"
           />
         </div>

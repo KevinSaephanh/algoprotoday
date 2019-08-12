@@ -1,0 +1,14 @@
+.spinner {
+    width: 100vw;
+    margin-top: 30%;
+    text-align: center;
+}
+
+.spinner-img {
+    width: 50%;
+    color: blueviolet;
+}
+
+.spinner h2 {
+    padding-top: 25px;
+}

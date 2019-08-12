@@ -1,6 +1,7 @@
 import axios from "axios";
 import {
   GET_CHALLENGES,
+  GET_CHALLENGE,
   CREATE_CHALLENGE,
   UPDATE_CHALLENGE,
   DELETE_CHALLENGE,
@@ -24,13 +25,14 @@ export const getChallenges = () => {
   };
 };
 
-export const getChallenge = () => {
+export const getChallenge = id => {
   return async dispatch => {
     try {
-      const id = "5d40a568b812160248103396"; //Placeholder
+      console.log("IN");
+
       const res = await axios.get(`/api/challenges/${id}`);
       dispatch({
-        type: GET_CHALLENGES,
+        type: GET_CHALLENGE,
         payload: res.data
       });
     } catch (err) {

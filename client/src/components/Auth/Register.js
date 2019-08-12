@@ -1,20 +1,31 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { register } from "../../store/actions/authActions";
-import { Form, Label, Input, Button } from "reactstrap";
+import { Form, Label, Input, Button, Alert } from "reactstrap";
+import PropTypes from "prop-types";
 import "./Auth.css";
 
 class Register extends Component {
   state = {
     username: "",
     email: "",
-    password: ""
+    password: "",
+    errors: {}
   };
 
   componentDidMount() {
     const { user } = this.props;
     if (user.isAuthenticated) {
-      window.location.href = `/profile/${user.username}`;
+      const { username } = user.user;
+      window.location.href = `/profile/${username}`;
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({
+        errors: nextProps.errors
+      });
     }
   }
 
@@ -28,7 +39,7 @@ class Register extends Component {
     window.location.href = "/login";
   };
 
-  onSubmit = async e => {
+  onSubmit = e => {
     e.preventDefault();
     const newUser = {
       username: this.state.username,
@@ -36,12 +47,13 @@ class Register extends Component {
       password: this.state.password
     };
 
-    await this.props.register(newUser);
+    this.props.register(newUser);
     window.location.href = "/login";
   };
 
   render() {
-    //const { errors } = this.state;
+    const { errors } = this.state;
+
     return (
       <div className="auth">
         <h1>Register</h1>
@@ -49,24 +61,30 @@ class Register extends Component {
           <Label>Username</Label>
           <Input
             type="text"
+            error={errors.username}
             name="username"
             placeholder="Enter username"
             onChange={this.onChange}
           />
+          {errors.username && <Alert>{errors.username}</Alert>}
           <Label>Email</Label>
           <Input
             type="email"
+            error={errors.email}
             name="email"
             placeholder="Enter email"
             onChange={this.onChange}
           />
+          {errors.email && <Alert>{errors.email}</Alert>}
           <Label>Password</Label>
           <Input
             type="password"
+            error={errors.password}
             name="password"
             placeholder="Enter password"
             onChange={this.onChange}
           />
+          {errors.password && <Alert>{errors.password}</Alert>}
           <Button className="btn" type="submit" name="register">
             Register
           </Button>
@@ -80,9 +98,16 @@ class Register extends Component {
   }
 }
 
+Register.propTypes = {
+  register: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  error: PropTypes.object.isRequired
+};
+
 const mapStateToProps = state => {
   return {
-    user: state.auth
+    user: state.auth,
+    error: state.error
   };
 };
 

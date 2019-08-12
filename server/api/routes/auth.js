@@ -1,21 +1,28 @@
 const router = require("express").Router();
 const User = require("../models/User");
-const {
-  registerValidation,
-  loginValidation
-} = require("../middleware/validation");
+const { validateRegister, validateLogin } = require("../middleware/validation");
 const {
   compare,
   hashPassword,
-  generateAuthToken
+  generateAuthToken,
+  verifyToken
 } = require("../middleware/auth");
+
+router.get("/auth", verifyToken, (req, res) => {
+  res.json({
+    isAuthenticated: true,
+    id: req.user._id,
+    username: req.user.username
+  });
+});
 
 // REGISTER
 router.post("/register", async (req, res) => {
   // Validate data
-  const { error } = registerValidation(req.body);
-  if (error) {
-    return res.status(400).send(error.details[0].message);
+  const { errors, isValid } = validateRegister(req.body);
+
+  if (!isValid) {
+    res.status(400).json(errors);
   }
 
   const { username, email, password } = req.body;
@@ -23,13 +30,13 @@ router.post("/register", async (req, res) => {
   // Check for duplicate username
   const usernameExists = await User.findOne({ username: username });
   if (usernameExists) {
-    return res.status(400).send("Username is already in use");
+    res.status(400).json("Username is already in use");
   }
 
   // Check for duplicate email
   const emailExists = await User.findOne({ email: email.toLowerCase() });
   if (emailExists) {
-    return res.status(400).send("Email is already in use");
+    res.status(400).json("Email is already in use");
   }
 
   // Hash password
@@ -44,18 +51,19 @@ router.post("/register", async (req, res) => {
 
   try {
     await newUser.save();
-    res.status(200).send("New user added successfully");
+    res.status(200).json("New user added successfully");
   } catch (err) {
-    res.status(400).send(err);
+    res.status(400).json(err);
   }
 });
 
 // LOGIN
 router.post("/login", async (req, res) => {
   // Validate data
-  const { error } = loginValidation(req.body);
-  if (error) {
-    return res.status(400).send(error.details[0].message);
+  const { errors, isValid } = validateLogin(req.body);
+
+  if (!isValid) {
+    res.status(400).json(errors);
   }
 
   // Find username and password
@@ -67,21 +75,23 @@ router.post("/login", async (req, res) => {
     });
     await compare(password, user.password);
   } catch (error) {
-    return res.status(400).send({ error: "Username/password is incorrect" });
+    res.status(400).json("Username/password is incorrect");
   }
 
   // Sign token
   const token = generateAuthToken(user);
-  res.header("auth-token", token).send({ token });
+  res.json({
+    token: "Bearer " + token
+  });
 });
 
 // GET USERS
 router.get("/", async (req, res) => {
   try {
     const users = await User.find();
-    return res.status(200).send(users);
+    return res.status(200).json(users);
   } catch (error) {
-    return res.status(400).send("No users found");
+    return res.status(400).json("No users found");
   }
 });
 
@@ -89,9 +99,9 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
-    res.status(200).send(user);
+    res.status(200).json(user);
   } catch (error) {
-    return res.status(400).send("User could not be found");
+    res.status(400).json("User could not be found");
   }
 });
 
@@ -100,7 +110,7 @@ router.post("/:id", async (req, res) => {
   // Validate data
   const { error } = registerValidation(req.body);
   if (error) {
-    return res.status(400).send(error.details[0].message);
+    res.status(400).json(error.details[0].message);
   }
 
   const { username, email, password } = req.body;
@@ -120,9 +130,9 @@ router.post("/:id", async (req, res) => {
       },
       { new: true }
     );
-    return res.status(200).send("User successfully updated");
+    res.status(200).json("User successfully updated");
   } catch (err) {
-    return res.status(400).send("Failed to update");
+    res.status(400).json("Failed to update");
   }
 });
 
@@ -130,9 +140,9 @@ router.post("/:id", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     await User.findByIdAndRemove(req.params.id);
-    return res.status(200).send("User successfully deleted");
+    res.status(200).json("User successfully deleted");
   } catch (err) {
-    return res.status(400).send(err);
+    res.status(400).json(err);
   }
 });
 

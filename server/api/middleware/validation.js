@@ -1,140 +1,61 @@
-const Joi = require("joi");
+const Validator = require("validator");
+const isEmpty = require("is-empty");
 
-const getErrors = err => {
-  switch (err.type) {
-    case "any.empty":
-      err.message = "This field is required";
-      return err.message;
-    case "string.min":
-      err.message = `This field should have at least ${
-        err.context.limit
-      } characters!`;
-      return err.message;
-    case "string.max":
-      err.message = `This field should have at most ${
-        err.context.limit
-      } characters!`;
-      return err.message;
-    case "string.email":
-      err.message = "You must provide an email";
-      return err.message;
-    default:
-      return;
+const validateRegister = user => {
+  let errors = {};
+
+  // Convert empty fields to empty string
+  user.username = !isEmpty(user.username) ? user.username : "";
+  user.email = !isEmpty(user.email) ? user.email : "";
+  user.password = !isEmpty(user.password) ? user.password : "";
+
+  // Check username
+  if (Validator.isEmpty(user.username)) {
+    errors.username = "Username is required";
   }
-};
 
-// Use joi to validate forms
-const registerValidation = data => {
-  const schema = Joi.object().keys({
-    username: Joi.string()
-      .min(3)
-      .max(15)
-      .required()
-      .error(errors => {
-        errors.forEach(err => {
-          err = getErrors(err);
-        });
+  // Check email
+  if (Validator.isEmpty(user.email)) {
+    errors.email = "Email is required";
+  } else if (Validator.isEmail(user.email)) {
+    errors.email = "Email is invalid";
+  }
 
-        return errors;
-      }),
-    email: Joi.string()
-      .min(7)
-      .max(50)
-      .required()
-      .email()
-      .error(errors => {
-        errors.forEach(err => {
-          err = getErrors(err);
-        });
+  // Check password
+  if (Validator.isEmpty(user.password)) {
+    errors.password = "Password is required";
+  }
 
-        return errors;
-      }),
-    password: Joi.string()
-      .min(7)
-      .max(255)
-      .required()
-      .regex(/^(?=.*[A-Z])(?=.*\d)/)
-      .error(errors => {
-        errors.forEach(err => {
-          err = getErrors(err);
-        });
-
-        return errors;
-      })
-  });
-
-  return Joi.validate(data, schema);
-};
-
-const loginValidation = data => {
-  const schema = {
-    username: Joi.string()
-      .min(3)
-      .max(15)
-      .required()
-      .error(errors => {
-        errors.forEach(err => {
-          err = getErrors(err);
-        });
-
-        return errors;
-      }),
-    password: Joi.string()
-      .min(7)
-      .max(255)
-      .required()
-      .error(errors => {
-        errors.forEach(err => {
-          err = getErrors(err);
-        });
-
-        return errors;
-      })
+  return {
+    errors,
+    isValid: isEmpty(errors)
   };
-
-  return Joi.validate(data, schema);
 };
 
-const challengeValidation = data => {
-  const schema = {
-    title: Joi.string()
-      .min(5)
-      .max(55)
-      .required()
-      .error(errors => {
-        errors.forEach(err => {
-          err = getErrors(err);
-        });
+const validateLogin = user => {
+  let errors = {};
 
-        return errors;
-      }),
-    difficulty: Joi.string()
-      .min(3)
-      .max(15)
-      .required()
-      .error(errors => {
-        errors.forEach(err => {
-          err = getErrors(err);
-        });
+  // Convert empty fields to empty string
+  user.username = !isEmpty(user.username) ? user.username : "";
+  user.password = !isEmpty(user.password) ? user.password : "";
 
-        return errors;
-      }),
-    prompt: Joi.string()
-      .min(7)
-      .max(500)
-      .required()
-      .error(errors => {
-        errors.forEach(err => {
-          err = getErrors(err);
-        });
+  // Check username
+  if (Validator.isEmpty(user.username)) {
+    errors.username = "Username is required";
+  }
 
-        return errors;
-      })
+  // Check password
+  if (Validator.isEmpty(user.password)) {
+    errors.password = "Password is required";
+  }
+
+  return {
+    errors,
+    isValid: isEmpty(errors)
   };
-
-  return Joi.validate(data, schema);
 };
 
-module.exports.registerValidation = registerValidation;
-module.exports.loginValidation = loginValidation;
-module.exports.challengeValidation = challengeValidation;
+module.exports = {
+  validateRegister,
+  validateLogin
+};

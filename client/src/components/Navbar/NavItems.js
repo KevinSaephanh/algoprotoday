@@ -2,20 +2,21 @@ import React from "react";
 import { connect } from "react-redux";
 import { logout } from "../../store/actions/authActions";
 import { Nav, NavItem, NavLink } from "reactstrap";
+import PropTypes from "prop-types";
 
 const NavItems = ({ user }) => {
   const SignOut = async e => {
     e.preventDefault();
-    console.log("Logging out");
-    //await logout;
+    await logout;
     localStorage.removeItem("jwtToken");
-    localStorage.removeItem("auth");
+
     window.location.href = "/";
   };
 
   const profileURL = () => {
-    if (localStorage.getItem("auth")) {
-      return `/${user.username}`;
+    if (localStorage.jwtToken) {
+      const { username } = user.user;
+      return `${username}`;
     } else {
       return "/";
     }
@@ -34,7 +35,7 @@ const NavItems = ({ user }) => {
     },
     {
       text: "Profile",
-      link: `/profile${profileURL()}`,
+      link: `/profile/${profileURL()}`,
       restricted: true
     },
     {
@@ -83,6 +84,10 @@ const NavItems = ({ user }) => {
       {showItems()}
     </Nav>
   );
+};
+
+NavItems.propTypes = {
+  user: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {

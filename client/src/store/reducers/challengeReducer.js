@@ -7,7 +7,7 @@ import {
 
 const initState = {
   challenges: [],
-  error: ""
+  challenge: {}
 };
 
 export default (state = initState, action) => {
@@ -15,28 +15,24 @@ export default (state = initState, action) => {
     case GET_CHALLENGES:
       return {
         ...state,
-        challenges: action.payload,
-        error: ""
+        challenges: action.payload
       };
     case GET_CHALLENGE:
       return {
         ...state,
-        challenges: action.payload,
-        error: ""
+        challenge: action.payload
       };
     case CREATE_CHALLENGE:
       return {
         ...state,
-        challenges: [action.payload, ...state.challenges],
-        error: ""
+        challenges: [action.payload, ...state.challenges]
       };
     case DELETE_CHALLENGE:
       return {
         ...state,
         challenges: state.challenges.filter(
           challenge => challenge._id !== action.payload
-        ),
-        error: ""
+        )
       };
     default:
       return state;

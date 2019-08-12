@@ -19,7 +19,8 @@ const hashPassword = async password => {
 // Sign token for user login
 const generateAuthToken = user => {
   const payload = {
-    _id: user._id
+    _id: user._id,
+    username: user.username
   };
   const token = jwt.sign(payload, config.SECRET, { expiresIn: "1h" });
 

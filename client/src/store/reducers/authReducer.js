@@ -3,13 +3,15 @@ import {
   LOGIN_FAIL,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
-  LOGOUT
+  LOGOUT,
+  LOAD_USER,
+  LOAD_USER_FAIL
 } from "../actions/actionTypes";
+import isEmpty from "is-empty";
 
 const initState = {
   isAuthenticated: false,
-  user: {},
-  error: ""
+  user: {}
 };
 
 export default (state = initState, action) => {
@@ -18,26 +20,29 @@ export default (state = initState, action) => {
       return {
         ...state,
         isAuthenticated: false,
-        user: null,
-        error: ""
+        user: null
       };
     case LOGIN_SUCCESS:
       return {
         ...state,
         isAuthenticated: true,
-        user: action.payload,
-        error: ""
+        user: action.payload
       };
     case LOGIN_FAIL:
     case REGISTER_FAIL:
+    case LOGOUT:
+    case LOAD_USER_FAIL:
       return {
         ...state,
         isAuthenticated: false,
-        user: null,
-        error: action.payload
+        user: null
       };
-    case LOGOUT:
-      return initState;
+    case LOAD_USER:
+      return {
+        ...state,
+        isAuthenticated: !isEmpty(action.payload),
+        user: action.payload
+      };
     default:
       return state;
   }

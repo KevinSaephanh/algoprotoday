@@ -1,7 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getChallenges } from "../../store/actions/challengeActions";
+import Loader from "../Loader/Loader";
+import {
+  getChallenges,
+  getChallenge
+} from "../../store/actions/challengeActions";
 import ChallengeTable from "./ChallengeTable";
+import PropTypes from "prop-types";
 import "./Challenges.css";
 
 class ChallengesPage extends Component {
@@ -30,28 +35,35 @@ class ChallengesPage extends Component {
     return filteredChallenges;
   };
 
-  onClick = challengeID => {
+  onClick = async challengeID => {
     // Not working right now
     if (this.props.user.isAuthenticated) {
-      window.location = `/challenges/${challengeID}`;
+      await this.props.getChallenge(challengeID);
+      window.location.href = `/challenges/${challengeID}`;
     } else {
-      window.location = "/login";
+      window.location.href = "/login";
     }
   };
 
   render() {
-    console.log(this.state.challenges);
-    return (
+    const { challenges } = this.state;
+    return challenges.length ? (
       <div className="challenges-page">
         <h2>Select From an Array of Challenges</h2>
-        <ChallengeTable
-          challenges={this.state.challenges}
-          onClick={this.onClick}
-        />
+        <ChallengeTable challenges={challenges} onClick={this.onClick} />
       </div>
+    ) : (
+      <Loader />
     );
   }
 }
+
+ChallengesPage.propTypes = {
+  getChallenges: PropTypes.func.isRequired,
+  getChallenge: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  challenges: PropTypes.array.isRequired
+};
 
 const mapStateToProps = state => {
   return {
@@ -62,5 +74,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { getChallenges }
+  { getChallenges, getChallenge }
 )(ChallengesPage);

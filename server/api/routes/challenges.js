@@ -1,13 +1,12 @@
 const router = require("express").Router();
 const Challenge = require("../models/Challenge");
-const { challengeValidation } = require("../middleware/validation");
 const { verifyToken } = require("../middleware/auth");
 
 // GET ALL CHALLENGES
 router.get("/", async (req, res) => {
   try {
     const challenges = await Challenge.find();
-    return res.status(200).send(challenges);
+    res.status(200).send(challenges);
   } catch (error) {
     res.status(400).send("No challenges found");
   }
@@ -17,42 +16,33 @@ router.get("/", async (req, res) => {
 router.get("/:id", verifyToken, async (req, res) => {
   try {
     const challenge = await Challenge.findById(req.params.id);
-    return res.status(200).send(challenge);
+    res.status(200).send(challenge);
   } catch (error) {
-    return res.status(400).send("Challenge could not be found");
+    res.status(400).send("Challenge could not be found");
   }
 });
 
 // CREATE A CHALLENGE
 router.post("/create", async (req, res) => {
-  // Validate data
-  const { error } = challengeValidation(req.body);
-  if (error) {
-    return res.status(400).send(error.details[0].message);
-  }
 
   const challenge = new Challenge(req.body);
 
   const duplicate = await Challenge.findOne({ title: challenge.title });
   if (duplicate) {
-    return res.status(400).send("Challenge title is already taken");
+    res.status(400).send("Challenge title is already taken");
   }
 
   try {
     await challenge.save();
-    return res.status(200).send("Successfully created challenge");
+    res.status(200).send("Successfully created challenge");
   } catch (error) {
-    return res.status(400).send(error);
+    res.status(400).send(error);
   }
 });
 
 // UPDATE A CHALLENGE
 router.post("/:id", async (req, res) => {
-  // Validate data
-  const { error } = challengeValidation(req.body);
-  if (error) {
-    return res.status(400).send(error.details[0].message);
-  }
+ 
 
   try {
     const { title, difficulty, prompt, solutions } = req.body;
@@ -62,9 +52,9 @@ router.post("/:id", async (req, res) => {
       prompt: prompt,
       solutions: solutions
     });
-    return res.status(200).send("Challenge successfully updated");
+    res.status(200).send("Challenge successfully updated");
   } catch (error) {
-    return res.status(400).send("Unsuccessful update");
+    res.status(400).send("Unsuccessful update");
   }
 });
 
@@ -72,9 +62,9 @@ router.post("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     await Challenge.findOneAndDelete({ _id: req.params.id });
-    return res.status(200).send("Deletion successful");
+    res.status(200).send("Deletion successful");
   } catch (error) {
-    return res.status(400).send("Failed to delete challenge");
+    res.status(400).send("Failed to delete challenge");
   }
 });
 

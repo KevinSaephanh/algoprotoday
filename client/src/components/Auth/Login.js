@@ -1,19 +1,35 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { login } from "../../store/actions/authActions";
-import { Form, Label, Input, Button } from "reactstrap";
+import { Form, Label, Input, Button, Alert } from "reactstrap";
+import PropTypes from "prop-types";
 import "./Auth.css";
 
 class Login extends Component {
   state = {
     username: "",
-    password: ""
+    password: "",
+    errors: {}
   };
 
   componentDidMount() {
     const { user } = this.props;
     if (user.isAuthenticated) {
-      window.location.href = `/profile/${user.username}`;
+      const { username } = user.user;
+      window.location.href = `/profile/${username}`;
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.user.isAuthenticated) {
+      const { username } = nextProps.user.user;
+      this.props.history.push(`/profile/${username}`);
+    }
+
+    if (nextProps.errors) {
+      this.setState({
+        errors: nextProps.errors
+      });
     }
   }
 
@@ -27,20 +43,17 @@ class Login extends Component {
     window.location.href = "/register";
   };
 
-  onSubmit = async e => {
+  onSubmit = e => {
     e.preventDefault();
     const userData = {
       username: this.state.username,
       password: this.state.password
     };
-    await this.props.login(userData);
-
-    const { user } = this.props;
-    window.location.href = `/profile/${user.user.username}`;
+    this.props.login(userData);
   };
 
   render() {
-    const { error } = this.props;
+    const { errors } = this.state;
 
     return (
       <div className="auth">
@@ -50,21 +63,23 @@ class Login extends Component {
             <Label>Username</Label>
             <Input
               type="text"
+              error={errors.username}
               name="username"
               placeholder="Enter username"
               onChange={this.onChange}
-            />
-            {error && <span style={{ color: "white" }}>{error}</span>}
+            />{" "}
+            {errors.username && <Alert>{errors.username}</Alert>}
           </div>
           <div className="input-field">
             <Label>Password</Label>
             <Input
               type="password"
+              error={errors.password}
               name="password"
               placeholder="Enter password"
               onChange={this.onChange}
             />
-            {error && <span style={{ color: "white" }}>{error}</span>}
+            {errors.password && <Alert>{errors.password}</Alert>}
           </div>
           <Button className="btn" type="submit" name="login">
             Login
@@ -79,10 +94,16 @@ class Login extends Component {
   }
 }
 
+Login.propTypes = {
+  login: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  error: PropTypes.object.isRequired
+};
+
 const mapStateToProps = state => {
   return {
     user: state.auth,
-    error: state.auth.error
+    error: state.error
   };
 };
 
@@ -90,3 +111,6 @@ export default connect(
   mapStateToProps,
   { login }
 )(Login);
+/** {error.message && (
+              <span style={{ color: "white" }}>{error.message}</span>
+            )} */

@@ -1,12 +1,14 @@
 import axios from "axios";
-import jwt_decode from "jwt-decode";
+import jwtDecode from "jwt-decode";
 import setAuthToken from "../../utils/setAuthToken";
 import {
   REGISTER_FAIL,
   REGISTER_SUCCESS,
   LOGIN_FAIL,
   LOGIN_SUCCESS,
-  LOGOUT
+  LOGOUT,
+  LOAD_USER,
+  LOAD_USER_FAIL
 } from "./actionTypes";
 
 export const register = userData => {
@@ -19,7 +21,7 @@ export const register = userData => {
     } catch (err) {
       dispatch({
         type: REGISTER_FAIL,
-        payload: console.error(err)
+        payload: err.response.data
       });
     }
   };
@@ -29,26 +31,23 @@ export const login = userData => {
   return async dispatch => {
     try {
       const res = await axios.post("/api/users/login", userData);
-      //Create and set token in localStorage
-      const { token } = res.data;
-      setAuthToken(token);
-      localStorage.setItem("jwtToken", token);
 
-      // Decode token and set user in localStorage
-      const decoded = jwt_decode(token);
-      const user = {
-        username: userData.username,
-        token: decoded
-      };
-      localStorage.setItem("user", JSON.stringify(user));
+      // Create and set token in header and localStorage
+      const { token } = res.data;
+      localStorage.setItem("jwtToken", token);
+      setAuthToken(token);
+
+      // Decode token to get user data
+      const decoded = jwtDecode(token);
+      console.log(decoded);
       dispatch({
         type: LOGIN_SUCCESS,
-        payload: user
+        payload: decoded
       });
     } catch (err) {
       dispatch({
         type: LOGIN_FAIL,
-        payload: console.error(err)
+        payload: err.response.data
       });
     }
   };
@@ -57,19 +56,27 @@ export const login = userData => {
 export const logout = () => {
   console.log("LOGGING OUTTTTT");
   return dispatch => {
+    // Remove token from localStorage and header
+    localStorage.removeItem("jwtToken");
+    setAuthToken(false);
+
     dispatch({
       type: LOGOUT
     });
+  };
+};
 
-    // Remove contents from local storage
-    localStorage.removeItem("jwtToken");
-    localStorage.removeItem("user");
-    // Remove auth header for future requests
-    setAuthToken(false);
-    // // Reset state
-    // dispatch({
-    //   type: LOGIN_SUCCESS,
-    //   payload: {}
-    // });
+export const loadUser = data => {
+  return async dispatch => {
+    try {
+      dispatch({
+        type: LOAD_USER,
+        payload: data
+      });
+    } catch (err) {
+      dispatch({
+        type: LOAD_USER_FAIL
+      });
+    }
   };
 };
