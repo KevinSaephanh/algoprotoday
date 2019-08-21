@@ -4,12 +4,10 @@ import { logout } from "../../store/actions/authActions";
 import { Nav, NavItem, NavLink } from "reactstrap";
 import PropTypes from "prop-types";
 
-const NavItems = ({ user }) => {
-  const SignOut = async e => {
+const NavItems = ({user, logout}) => {
+  const SignOut = e => {
     e.preventDefault();
-    await logout;
-    localStorage.removeItem("jwtToken");
-
+    logout();
     window.location.href = "/";
   };
 
@@ -87,7 +85,8 @@ const NavItems = ({ user }) => {
 };
 
 NavItems.propTypes = {
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  logout: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {

@@ -11,7 +11,8 @@ import isEmpty from "is-empty";
 
 const initState = {
   isAuthenticated: false,
-  user: {}
+  user: {},
+  errors: ""
 };
 
 export default (state = initState, action) => {
@@ -20,28 +21,38 @@ export default (state = initState, action) => {
       return {
         ...state,
         isAuthenticated: false,
-        user: null
+        user: null,
+        errors: null
       };
     case LOGIN_SUCCESS:
       return {
         ...state,
         isAuthenticated: true,
-        user: action.payload
+        user: action.payload,
+        errors: null
       };
     case LOGIN_FAIL:
     case REGISTER_FAIL:
-    case LOGOUT:
     case LOAD_USER_FAIL:
       return {
         ...state,
         isAuthenticated: false,
-        user: null
+        user: null,
+        errors: action.payload
+      };
+    case LOGOUT:
+      return {
+        ...state,
+        isAuthenticated: false,
+        user: null,
+        errors: null
       };
     case LOAD_USER:
       return {
         ...state,
         isAuthenticated: !isEmpty(action.payload),
-        user: action.payload
+        user: action.payload,
+        errors: null
       };
     default:
       return state;

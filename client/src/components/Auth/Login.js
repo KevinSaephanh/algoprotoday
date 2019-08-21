@@ -9,7 +9,7 @@ class Login extends Component {
   state = {
     username: "",
     password: "",
-    errors: {}
+    errors: ""
   };
 
   componentDidMount() {
@@ -20,15 +20,16 @@ class Login extends Component {
     }
   }
 
+  // Check if user is already logged in
   componentWillReceiveProps(nextProps) {
     if (nextProps.user.isAuthenticated) {
       const { username } = nextProps.user.user;
       this.props.history.push(`/profile/${username}`);
     }
 
-    if (nextProps.errors) {
+    if (nextProps.user.errors) {
       this.setState({
-        errors: nextProps.errors
+        errors: nextProps.user.errors
       });
     }
   }
@@ -54,7 +55,6 @@ class Login extends Component {
 
   render() {
     const { errors } = this.state;
-
     return (
       <div className="auth">
         <h1>Login</h1>
@@ -96,14 +96,12 @@ class Login extends Component {
 
 Login.propTypes = {
   login: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired,
-  error: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {
   return {
-    user: state.auth,
-    error: state.error
+    user: state.auth
   };
 };
 
@@ -111,6 +109,3 @@ export default connect(
   mapStateToProps,
   { login }
 )(Login);
-/** {error.message && (
-              <span style={{ color: "white" }}>{error.message}</span>
-            )} */

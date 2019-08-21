@@ -1,9 +1,13 @@
-import React, { Component } from "react";
+import React from "react";
+import { Container } from "reactstrap";
 import { Provider } from "react-redux";
 import { loadUser, logout } from "./store/actions/authActions";
 import setAuthToken from "./utils/setAuthToken";
 import jwtDecode from "jwt-decode";
 import store from "./store/store";
+
+import AppNavbar from "./components/Navbar/Navbar";
+import Footer from "./components/Footer/Footer";
 import Routes from "./routes";
 
 import "./App.css";
@@ -18,7 +22,6 @@ if (localStorage.jwtToken) {
     // Decode token and load user
     const decoded = jwtDecode(token);
     store.dispatch(loadUser(decoded));
-    console.log(decoded);
 
     // Check for expired token
     const currentTime = Date.now() / 1000;
@@ -31,14 +34,16 @@ if (localStorage.jwtToken) {
   }
 }
 
-class App extends Component {
-  render() {
-    return (
-      <Provider store={store}>
+const App = () => {
+  return (
+    <Provider store={store}>
+      <Container>
+        <AppNavbar />
         <Routes />
-      </Provider>
-    );
-  }
-}
+        <Footer />
+      </Container>
+    </Provider>
+  );
+};
 
 export default App;

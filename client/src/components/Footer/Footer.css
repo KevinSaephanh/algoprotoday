@@ -1,36 +1,29 @@
 footer {
     position: absolute;
     min-height: 40px;
-    max-height: 40px;
-    width: 100vw;
+    width: 100%;
     bottom: 0;
     color: whitesmoke;
-    padding-top: 15px;
+    padding-top: 25px;
+    display: flex;
 }
 
-footer .left p {
+footer .left {
     font-weight: bold;
     font-size: 13px;
     padding-left: 15px;
 }
 
-footer .left {
-    float: left;
+footer .left,
+.right {
+    padding-bottom: 15px;
+    display: inline-block;
 }
 
 footer .right {
-    float: right;
-}
-
-footer .right p {
     cursor: pointer;
-    font-size: 15px;
+    font-size: 20px;
     padding-right: 15px;
-    -webkit-transform: scale(5, 1);
-    -moz-transform: scale(5, 1);
-    -ms-transform: scale(5, 1);
-    -o-transform: scale(5, 1);
-    transform: scale(5, 1);
 }
 
 footer .right:hover {

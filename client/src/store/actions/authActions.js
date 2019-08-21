@@ -39,7 +39,6 @@ export const login = userData => {
 
       // Decode token to get user data
       const decoded = jwtDecode(token);
-      console.log(decoded);
       dispatch({
         type: LOGIN_SUCCESS,
         payload: decoded
@@ -54,7 +53,6 @@ export const login = userData => {
 };
 
 export const logout = () => {
-  console.log("LOGGING OUTTTTT");
   return dispatch => {
     // Remove token from localStorage and header
     localStorage.removeItem("jwtToken");

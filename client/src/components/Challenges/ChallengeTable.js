@@ -5,7 +5,7 @@ const ChallengeTable = props => {
   const tableItems = props.challenges.map((challenge, i) => {
     return (
       <tr key={i}>
-        <th scope="row">{i}</th>
+        <th scope="row">{i + 1}</th>
         <td onClick={() => props.onClick(challenge._id)} className="title">
           {challenge.title}
         </td>

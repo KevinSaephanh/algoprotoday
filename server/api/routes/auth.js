@@ -8,13 +8,13 @@ const {
   verifyToken
 } = require("../middleware/auth");
 
-router.get("/auth", verifyToken, (req, res) => {
-  res.json({
-    isAuthenticated: true,
-    id: req.user._id,
-    username: req.user.username
-  });
-});
+// router.get("/auth", verifyToken, (req, res) => {
+//   res.json({
+//     isAuthenticated: true,
+//     id: req.user._id,
+//     username: req.user.username
+//   });
+// });
 
 // REGISTER
 router.post("/register", async (req, res) => {

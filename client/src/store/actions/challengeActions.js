@@ -12,6 +12,7 @@ export const getChallenges = () => {
   return async dispatch => {
     try {
       const res = await axios.get("/api/challenges");
+
       dispatch({
         type: GET_CHALLENGES,
         payload: res.data
@@ -28,9 +29,8 @@ export const getChallenges = () => {
 export const getChallenge = id => {
   return async dispatch => {
     try {
-      console.log("IN");
-
       const res = await axios.get(`/api/challenges/${id}`);
+      
       dispatch({
         type: GET_CHALLENGE,
         payload: res.data

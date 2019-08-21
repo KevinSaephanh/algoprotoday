@@ -66,7 +66,9 @@ class Register extends Component {
             placeholder="Enter username"
             onChange={this.onChange}
           />
-          {errors.username && <Alert>{errors.username}</Alert>}
+          {errors.username && (
+            <Alert className="input-alert">{errors.username}</Alert>
+          )}
           <Label>Email</Label>
           <Input
             type="email"
@@ -100,14 +102,12 @@ class Register extends Component {
 
 Register.propTypes = {
   register: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired,
-  error: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {
   return {
-    user: state.auth,
-    error: state.error
+    user: state.auth
   };
 };
 
