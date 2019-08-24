@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Challenge = require("../models/Challenge");
 const { verifyToken } = require("../middleware/auth");
+const fetch = require("node-fetch");
 
 // GET ALL CHALLENGES
 router.get("/", async (req, res) => {
@@ -24,7 +25,6 @@ router.get("/:id", verifyToken, async (req, res) => {
 
 // CREATE A CHALLENGE
 router.post("/create", async (req, res) => {
-
   const challenge = new Challenge(req.body);
 
   const duplicate = await Challenge.findOne({ title: challenge.title });
@@ -41,9 +41,7 @@ router.post("/create", async (req, res) => {
 });
 
 // UPDATE A CHALLENGE
-router.post("/:id", async (req, res) => {
- 
-
+router.post("/update/:id", async (req, res) => {
   try {
     const { title, difficulty, prompt, solutions } = req.body;
     await Challenge.findByIdAndUpdate(req.params.id, {
@@ -65,6 +63,32 @@ router.delete("/:id", async (req, res) => {
     res.status(200).send("Deletion successful");
   } catch (error) {
     res.status(400).send("Failed to delete challenge");
+  }
+});
+
+// COMPILE CODE SENT FROM CLIENT
+router.post("/:id/compile", async (req, res) => {
+  try {
+    console.log("CN")
+    const program = {
+      script: req.body.script,
+      language: req.body.language,
+      versionIndex: "1",
+      clientId: "77bf3efaf1820ddc7ea97f6e8af4add8",
+      clientSecret:
+        "f4b908a5982bf543e85c59e59118742783467049ac54b32ee1f29b899cffefa4"
+    };
+    console.log(program);
+    const response = await fetch("https://api.jdoodle.com/v1/execute", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(program)
+    });
+    const data = await response.json();
+    res.status(200).send(data);
+  } catch (err) {
+    console.log(err);
+    res.status(400).send("Invalid request");
   }
 });
 

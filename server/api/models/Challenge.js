@@ -20,12 +20,27 @@ const ChallengeSchema = new mongoose.Schema({
     minlength: 7,
     maxlength: 500
   },
+  userAnswers: [
+    {
+      type: String,
+      minlength: 5,
+      maxlength: 300
+    }
+  ],
   solutions: [
     {
       type: String,
       maxlength: 200
     }
-  ]
+  ],
+  upvotes: {
+    type: Number,
+    default: 0
+  },
+  downvotes: {
+    type: Number,
+    default: 0
+  }
 });
 
 module.exports = mongoose.model("Challenge", ChallengeSchema);
