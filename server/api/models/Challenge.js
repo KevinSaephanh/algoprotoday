@@ -20,13 +20,6 @@ const ChallengeSchema = new mongoose.Schema({
     minlength: 7,
     maxlength: 500
   },
-  userAnswers: [
-    {
-      type: String,
-      minlength: 5,
-      maxlength: 300
-    }
-  ],
   solutions: [
     {
       type: String,

@@ -9,7 +9,7 @@ import {
 } from "reactstrap";
 import ChallengeItem from "./ChallengeItem";
 import Loader from "../../Loader/Loader";
-import { getChallenge } from "../../../store/actions/challengeActions";
+import { getChallenge, compile } from "../../../store/actions/challengeActions";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import AceEditor from "react-ace";
@@ -38,8 +38,9 @@ languages.forEach(language => {
 
 class Challenge extends Component {
   state = {
-    language: "",
+    language: "javascript",
     challenge: {},
+    loading: true,
     dropdown: false
   };
 
@@ -47,7 +48,8 @@ class Challenge extends Component {
     await this.props.getChallenge(this.props.match.params.id);
     const { challenge } = this.props.challenge;
     this.setState({
-      challenge: challenge
+      challenge: challenge,
+      loading: false
     });
   }
 
@@ -66,7 +68,7 @@ class Challenge extends Component {
         return;
       case "C#":
         this.setState({
-          language: "C#"
+          language: "csharp"
         });
         return;
       default:
@@ -77,13 +79,30 @@ class Challenge extends Component {
     }
   };
 
-  compile = e => {
+  compile = async e => {
     e.preventDefault();
-    console.log("COMPILE");
+    let language;
+    switch(this.state.language) {
+      case "python": 
+        language = "python3"
+        break;
+      case "javascript":
+        language = "nodejs"
+        break;
+      default: 
+        break;
+    }
+    const challenge = {
+      id: this.props.match.params.id,
+      language: language,
+      script: this.refs.aceEditor.editor.getValue()
+    }
+
+    await compile(challenge)
   };
 
   render() {
-    const { challenge, dropdown, language } = this.state;
+    const { challenge, dropdown, language, loading } = this.state;
     const langChoices = languages.map((lang, i) => {
       return (
         <DropdownItem
@@ -99,7 +118,7 @@ class Challenge extends Component {
 
     return (
       <div className="challenge">
-        {challenge !== null ? (
+        {!loading ? (
           <div>
             <ChallengeItem challenge={challenge} />
             <Row className="challenge-row">
@@ -119,6 +138,7 @@ class Challenge extends Component {
               editorProps={{ $blockScrolling: true }}
               height="400px"
               className="ace-editor"
+              ref="aceEditor"
             />
           </div>
         ) : (

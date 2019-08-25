@@ -26,8 +26,8 @@ body {
 .container .btn {
     height: 50px;
     width: 120px;
-    color: black;
-    background: white !important;
+    color: white;
+    background: transparent !important;
     margin: 15px 0;
     padding: 0 !important;
     cursor: pointer;

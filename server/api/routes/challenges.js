@@ -25,6 +25,7 @@ router.get("/:id", verifyToken, async (req, res) => {
 
 // CREATE A CHALLENGE
 router.post("/create", async (req, res) => {
+
   const challenge = new Challenge(req.body);
 
   const duplicate = await Challenge.findOne({ title: challenge.title });
@@ -41,7 +42,9 @@ router.post("/create", async (req, res) => {
 });
 
 // UPDATE A CHALLENGE
-router.post("/update/:id", async (req, res) => {
+router.post("/:id", async (req, res) => {
+ 
+
   try {
     const { title, difficulty, prompt, solutions } = req.body;
     await Challenge.findByIdAndUpdate(req.params.id, {
@@ -69,16 +72,13 @@ router.delete("/:id", async (req, res) => {
 // COMPILE CODE SENT FROM CLIENT
 router.post("/:id/compile", async (req, res) => {
   try {
-    console.log("CN")
     const program = {
-      script: req.body.script,
-      language: req.body.language,
-      versionIndex: "1",
+      script: `${req.body.script}`,
+      language: `${req.body.language}`,
+      versionIndex: "0",
       clientId: "77bf3efaf1820ddc7ea97f6e8af4add8",
-      clientSecret:
-        "f4b908a5982bf543e85c59e59118742783467049ac54b32ee1f29b899cffefa4"
+      clientSecret: "f4b908a5982bf543e85c59e59118742783467049ac54b32ee1f29b899cffefa4"
     };
-    console.log(program);
     const response = await fetch("https://api.jdoodle.com/v1/execute", {
       method: "POST",
       headers: { "Content-Type": "application/json" },

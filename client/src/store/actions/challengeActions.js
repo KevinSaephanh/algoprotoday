@@ -91,3 +91,13 @@ export const deleteChallenge = id => {
     }
   };
 };
+
+export const compile = async (challenge) => {
+  try {
+    const res = await axios.post(`/api/challenges/${challenge.id}/compile`, challenge)
+    console.log(res.data)
+    return res.data;
+  } catch(err ) {
+    console.log(err)
+  }
+}
