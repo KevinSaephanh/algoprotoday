@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import {
-  Row,
-  Button,
-  Dropdown,
-  DropdownItem,
-  DropdownToggle,
-  DropdownMenu
+    Row,
+    Col,
+    Button,
+    Dropdown,
+    DropdownItem,
+    DropdownToggle,
+    DropdownMenu
 } from "reactstrap";
 import ChallengeItem from "./ChallengeItem";
 import Loader from "../../Loader/Loader";
@@ -20,147 +21,168 @@ import "./Challenge.css";
 const languages = ["javascript", "java", "python", "C++", "C#"];
 
 languages.forEach(language => {
-  switch (language) {
-    case "C++":
-      require(`brace/mode/c_cpp`);
-      require(`brace/snippets/c_cpp`);
-      break;
-    case "C#":
-      require(`brace/mode/csharp`);
-      require(`brace/snippets/csharp`);
-      break;
-    default:
-      require(`brace/mode/${language}`);
-      require(`brace/snippets/${language}`);
-      break;
-  }
+    switch (language) {
+        case "C++":
+            require(`brace/mode/c_cpp`);
+            require(`brace/snippets/c_cpp`);
+            break;
+        case "C#":
+            require(`brace/mode/csharp`);
+            require(`brace/snippets/csharp`);
+            break;
+        default:
+            require(`brace/mode/${language}`);
+            require(`brace/snippets/${language}`);
+            break;
+    }
 });
 
 class Challenge extends Component {
-  state = {
-    language: "javascript",
-    challenge: {},
-    loading: true,
-    dropdown: false
-  };
+    state = {
+        language: "javascript",
+        challenge: {},
+        result: {},
+        loading: true,
+        dropdown: false
+    };
 
-  async componentDidMount() {
-    await this.props.getChallenge(this.props.match.params.id);
-    const { challenge } = this.props.challenge;
-    this.setState({
-      challenge: challenge,
-      loading: false
-    });
-  }
-
-  toggle = e => {
-    this.setState({
-      dropdown: !this.state.dropdown
-    });
-  };
-
-  changeLanguage = e => {
-    switch (e.target.value) {
-      case "C++":
+    async componentDidMount() {
+        await this.props.getChallenge(this.props.match.params.id);
+        const { challenge } = this.props.challenge;
         this.setState({
-          language: "c_cpp"
+            challenge: challenge,
+            loading: false
         });
-        return;
-      case "C#":
-        this.setState({
-          language: "csharp"
-        });
-        return;
-      default:
-        this.setState({
-          language: e.target.value
-        });
-        return;
-    }
-  };
-
-  compile = async e => {
-    e.preventDefault();
-    let language;
-    switch(this.state.language) {
-      case "python": 
-        language = "python3"
-        break;
-      case "javascript":
-        language = "nodejs"
-        break;
-      default: 
-        break;
-    }
-    const challenge = {
-      id: this.props.match.params.id,
-      language: language,
-      script: this.refs.aceEditor.editor.getValue()
     }
 
-    await compile(challenge)
-  };
+    toggle = e => {
+        this.setState({
+            dropdown: !this.state.dropdown
+        });
+    };
 
-  render() {
-    const { challenge, dropdown, language, loading } = this.state;
-    const langChoices = languages.map((lang, i) => {
-      return (
-        <DropdownItem
-          key={i}
-          className="dropdown-item"
-          onClick={this.changeLanguage}
-          value={lang}
-        >
-          {lang}
-        </DropdownItem>
-      );
-    });
+    changeLanguage = e => {
+        switch (e.target.value) {
+            case "C++":
+                this.setState({
+                    language: "c_cpp"
+                });
+                return;
+            case "C#":
+                this.setState({
+                    language: "csharp"
+                });
+                return;
+            default:
+                this.setState({
+                    language: e.target.value
+                });
+                return;
+        }
+    };
 
-    return (
-      <div className="challenge">
-        {!loading ? (
-          <div>
-            <ChallengeItem challenge={challenge} />
-            <Row className="challenge-row">
-              <Dropdown isOpen={dropdown} toggle={this.toggle}>
-                <DropdownToggle className="dropdown-toggle" caret>
-                  {language ? language : "javascript"}
-                </DropdownToggle>
-                <DropdownMenu className="dropdown-menu">
-                  {langChoices}
-                </DropdownMenu>
-              </Dropdown>
-              <Button onClick={this.compile}>Compile</Button>
-            </Row>
-            <AceEditor
-              mode={language ? language : "javascript"}
-              theme="monokai"
-              editorProps={{ $blockScrolling: true }}
-              height="400px"
-              className="ace-editor"
-              ref="aceEditor"
-            />
-          </div>
-        ) : (
-          <Loader />
-        )}
-      </div>
-    );
-  }
+    compile = async e => {
+        e.preventDefault();
+        let language;
+        switch (this.state.language) {
+            case "python":
+                language = "python3";
+                break;
+            case "javascript":
+                language = "nodejs";
+                break;
+            default:
+                break;
+        }
+        const challenge = {
+            id: this.props.match.params.id,
+            language: language,
+            script: this.refs.aceEditor.editor.getValue()
+        };
+
+        const result = await compile(challenge);
+        this.setState({
+            result
+        });
+        console.log(this.state.result);
+    };
+
+    render() {
+        const { challenge, dropdown, language, loading, result } = this.state;
+        const langChoices = languages.map((lang, i) => {
+            return (
+                <DropdownItem
+                    key={i}
+                    className="dropdown-item"
+                    onClick={this.changeLanguage}
+                    value={lang}
+                >
+                    {lang}
+                </DropdownItem>
+            );
+        });
+
+        return (
+            <div className="challenge">
+                {!loading ? (
+                    <div>
+                        <ChallengeItem challenge={challenge} />
+                        <Row className="challenge-row">
+                            <Dropdown isOpen={dropdown} toggle={this.toggle}>
+                                <DropdownToggle
+                                    className="dropdown-toggle"
+                                    caret
+                                >
+                                    {language ? language : "javascript"}
+                                </DropdownToggle>
+                                <DropdownMenu className="dropdown-menu">
+                                    {langChoices}
+                                </DropdownMenu>
+                            </Dropdown>
+                            <Button onClick={this.compile}>Compile</Button>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <AceEditor
+                                    mode={language ? language : "javascript"}
+                                    theme="monokai"
+                                    editorProps={{ $blockScrolling: true }}
+                                    height="400px"
+                                    className="ace-editor"
+                                    ref="aceEditor"
+                                />
+                            </Col>
+                            <Col>
+                                <div className="result">
+                                    <ul>
+                                        <li>CPU Time: {result.cpuTime}</li>
+                                        <li>Memory: {result.memory}</li>
+                                        <li>Output: {result.output}</li>
+                                    </ul>
+                                </div>
+                            </Col>
+                        </Row>
+                    </div>
+                ) : (
+                    <Loader />
+                )}
+            </div>
+        );
+    }
 }
 
 Challenge.propTypes = {
-  challenge: PropTypes.object.isRequired,
-  getChallenge: PropTypes.func.isRequired
+    challenge: PropTypes.object.isRequired,
+    getChallenge: PropTypes.func.isRequired
 };
 
 const mapStatetoProps = state => {
-  return {
-    challenge: state.challenge
-  };
+    return {
+        challenge: state.challenge
+    };
 };
 
 export default connect(
-  mapStatetoProps,
-  { getChallenge }
+    mapStatetoProps,
+    { getChallenge }
 )(Challenge);

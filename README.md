@@ -4,7 +4,7 @@ This is a standard programming learning platform that preps users for upcoming t
 
 ## Features
 
-- User authentication
+- User authentication (register/login)
 - Users have access to popular technical interview questions ranging from "easy" to "pro"
 - Users can also conduct mock interviews
 
@@ -14,10 +14,11 @@ In progress. Backend is fully functional, but frontend is incomplete. Mock inter
 
 ## Built With
 
-- MongoDB
-- Express
-- React
-- Nodejs
+- MongoDB (database)
+- Express (back end framework)
+- React (front end framework)
+- Redux (state management)
+- Nodejs (runtime environment)
 
 ### devDependencies
 

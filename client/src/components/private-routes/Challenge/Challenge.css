@@ -3,6 +3,7 @@
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
     padding: 25px 0;
+    padding-bottom: 50px;
 }
 
 .challenge-item {
@@ -49,6 +50,30 @@
     border: 1px solid white;
 }
 
+.result {
+    background: #282828;
+    height: 400px;
+    width: 500px;
+    margin: 15px auto;
+    margin-bottom: 25px;
+    border: 1px solid white;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+}
+
+.result ul {
+    list-style-type: none;
+    padding-left: 25px;
+    text-align: start;
+}
+
+.result li {
+    margin: 15px 0;
+}
+
 @media (max-width: 700px) {
     .challenge-item {
         width: 90vw;
@@ -57,5 +82,10 @@
     .ace-editor {
         height: 300px !important;
         width: 450px !important;
+    }
+
+    .result {
+        height: 300px;
+        width: 450px;
     }
 }
