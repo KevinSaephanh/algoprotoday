@@ -1,11 +1,97 @@
 .profile {
-    min-width: 350px;
-    min-height: 400px;
-    text-align: center;
+    width: 100vw;
+    min-height: 500px;
     padding: 25px 0;
+}
+
+.profile .row {
+    width: 80% !important;
+    margin: 0 auto;
 }
 
 .profile h2 {
     color: white;
-    font-size: 2rem;
+    font-size: 2.3rem;
+    text-align: center;
+    padding-bottom: 25px;
+}
+
+.profile .card {
+    color: black;
+    width: 350px !important;
+    height: 300px;
+    margin: 25px auto;
+    text-align: start !important;
+    font-weight: bold;
+    border: 4px solid navy;
+}
+
+.profile .card-top {
+    display: flex;
+    width: 100%;
+    border-bottom: 4px solid navy;
+    padding: 10px;
+}
+
+.profile .card-top h3 {
+    font-size: 1.4rem;
+    width: 65%;
+}
+
+.profile .card-top button {
+    font-weight: bold;
+    border: 3px solid black;
+    border-radius: 5px;
+    background: transparent;
+}
+
+.profile .card i {
+    font-size: 6rem;
+    padding: 15px 0;
+    width: 100%;
+    border-bottom: 3px solid navy;
+    text-align: center;
+}
+
+.profile .info {
+    height: 300px;
+    width: 350px;
+    margin: 0 auto;
+    font-size: 1.1rem;
+}
+
+.profile .info h3 {
+    font-size: 1.7rem;
+    padding: 15px 0;
+}
+
+.profile-edit h2 {
+    text-align: center;
+    padding-top: 50px;
+}
+
+.profile-edit form {
+    padding: 50px 0 !important;
+    width: 500px;
+    margin: 0 auto;
+}
+
+.profile-edit input,
+textarea {
+    color: black;
+    width: 450px !important;
+}
+
+.profile-edit textarea {
+    height: 150px !important;
+}
+
+.profile-edit button {
+    margin: 35px 0 !important;
+}
+
+@media (max-width: 700px) {
+    .profile .row {
+        width: 100vw !important;
+    }
 }

@@ -99,29 +99,18 @@ router.get("/:id", async (req, res) => {
 
 // UPDATE
 router.post("/:id", verifyToken, async (req, res) => {
-    // Validate data
-    const { error } = registerValidation(req.body);
-    if (error) {
-        res.status(400).json(error.details[0].message);
-    }
-
-    const { username, email, password } = req.body;
-
-    // Hash password
-    const hashedPassword = await hashPassword(password);
+    const { username, email, bio, website, github, linkedin } = req.body;
 
     try {
-        await User.findByIdAndUpdate(
-            req.params.id,
-            {
-                $set: {
-                    username: username,
-                    email: email.toLowerCase(),
-                    password: hashedPassword
-                }
-            },
-            { new: true }
-        );
+        const user = {
+            username,
+            email: email.toLowerCase(),
+            bio,
+            website: website.toLowerCase(),
+            github: github.toLowerCase(),
+            linkedin: linkedin.toLowerCase()
+        };
+        await User.findByIdAndUpdate(req.params.id, user);
         res.status(200).json("User successfully updated");
     } catch (err) {
         res.status(400).json("Failed to update");

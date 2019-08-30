@@ -4,26 +4,26 @@ This is a standard programming learning platform that preps users for upcoming t
 
 ## Features
 
-- User authentication (register/login)
-- Users have access to popular technical interview questions ranging from "easy" to "pro"
-- Users can also conduct mock interviews
+-   User authentication (register/login)
+-   Registered users have access to popular technical interview questions ranging from "easy" to "pro"
+-   This app also features a code editor (react-ace) and compiler/executor (jdoodle) where registered users can take on challenges or play around with the editor.
 
 ## Build Status
 
-In progress. Backend is fully functional, but frontend is incomplete. Mock interviews are non-accessible and there is no compiler api to compile and run code that the user inputs
+In development. Backend is fully functional, but frontend is incomplete. Needs more UI updates and features.
 
 ## Built With
 
-- MongoDB (database)
-- Express (back end framework)
-- React (front end framework)
-- Redux (state management)
-- Nodejs (runtime environment)
+-   MongoDB (database)
+-   Express (back end framework)
+-   React (front end framework)
+-   Redux (state management)
+-   Nodejs (runtime environment)
 
 ### devDependencies
 
-- concurrently
-- nodemon
+-   concurrently
+-   nodemon
 
 # Sample Code
 
@@ -31,4 +31,4 @@ In progress. Backend is fully functional, but frontend is incomplete. Mock inter
 
 ## Authors
 
-- Kevin Saephanh
+-   Kevin Saephanh

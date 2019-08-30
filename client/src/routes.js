@@ -10,8 +10,8 @@ import Register from "./components/Auth/Register";
 // Private routes
 import PrivateRoute from "./components/private-routes/privateRoute";
 import Profile from "./components/private-routes/Profile/Profile";
+import ProfileEdit from "./components/private-routes/Profile/ProfileEdit";
 import Challenge from "./components/private-routes/Challenge/Challenge";
-import MockInterview from "./components/private-routes/MockInterview/MockInterview";
 
 const routes = () => {
     return (
@@ -28,10 +28,14 @@ const routes = () => {
                 />
                 <PrivateRoute
                     exact
-                    path="/mock-interview"
-                    component={MockInterview}
+                    path="/profile/:username"
+                    component={Profile}
                 />
-                <PrivateRoute exact path="/profile/:id" component={Profile} />
+                <PrivateRoute
+                    exact
+                    path="/profile_edit/:username"
+                    component={ProfileEdit}
+                ></PrivateRoute>
             </Switch>
         </BrowserRouter>
     );

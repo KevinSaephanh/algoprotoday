@@ -22,11 +22,6 @@ const NavItems = ({ user, logout }) => {
 
     const items = [
         {
-            text: "Mock",
-            link: "/mock-interview",
-            restricted: true
-        },
-        {
             text: "Challenges",
             link: "/challenges",
             restricted: false

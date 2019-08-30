@@ -78,3 +78,22 @@ export const loadUser = data => {
         }
     };
 };
+
+export const getUserData = async id => {
+    try {
+        const res = await axios.get(`/api/users/${id}`);
+        return res.data;
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+export const updateUser = async userData => {
+    try {
+        console.log(userData);
+        const res = await axios.post(`/api/users/${userData.id}`, userData);
+        return res.data;
+    } catch (err) {
+        console.log(err);
+    }
+};

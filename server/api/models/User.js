@@ -20,12 +20,29 @@ const UserSchema = new mongoose.Schema({
         maxlength: 255,
         required: true
     },
+    bio: {
+        type: String,
+        maxlength: 300
+    },
+    website: {
+        type: String,
+        maxlength: 100
+    },
+    github: {
+        type: String,
+        maxlength: 100
+    },
+    linkedin: {
+        type: String,
+        maxlength: 100
+    },
     date: {
         type: Date,
         default: Date.now
     },
     isAdmin: {
-        type: Boolean
+        type: Boolean,
+        default: false
     }
 });
 

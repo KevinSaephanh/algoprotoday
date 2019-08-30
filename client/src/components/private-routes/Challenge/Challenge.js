@@ -155,9 +155,9 @@ class Challenge extends Component {
                             <Col>
                                 <div className="result">
                                     <ul>
-                                        <li>CPU Time: {result.cpuTime}</li>
-                                        <li>Memory: {result.memory}</li>
-                                        <li>Output: {result.output}</li>
+                                        <li>CPU Time: <span>{result.cpuTime}</span></li>
+                                        <li>Memory: <span>{result.memory}</span></li>
+                                        <li>Output: <span>{result.output}</span></li>
                                     </ul>
                                 </div>
                             </Col>

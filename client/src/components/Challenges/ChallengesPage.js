@@ -28,13 +28,6 @@ class ChallengesPage extends Component {
         });
     }
 
-    filterChallenges = (challenges, difficulty) => {
-        const filteredChallenges = challenges.filter(
-            challenge => challenge.difficulty === difficulty
-        );
-        return filteredChallenges;
-    };
-
     onClick = async challengeID => {
         if (this.props.user.isAuthenticated) {
             await this.props.getChallenge(challengeID);
