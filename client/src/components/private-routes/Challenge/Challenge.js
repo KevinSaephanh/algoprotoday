@@ -3,6 +3,7 @@ import {
     Row,
     Col,
     Button,
+    ButtonGroup,
     Dropdown,
     DropdownItem,
     DropdownToggle,
@@ -128,18 +129,23 @@ class Challenge extends Component {
                     <div>
                         <ChallengeItem challenge={challenge} />
                         <Row className="challenge-row">
-                            <Dropdown isOpen={dropdown} toggle={this.toggle}>
-                                <DropdownToggle
-                                    className="dropdown-toggle"
-                                    caret
+                            <ButtonGroup className="button-group">
+                                <Dropdown
+                                    isOpen={dropdown}
+                                    toggle={this.toggle}
                                 >
-                                    {language ? language : "javascript"}
-                                </DropdownToggle>
-                                <DropdownMenu className="dropdown-menu">
-                                    {langChoices}
-                                </DropdownMenu>
-                            </Dropdown>
-                            <Button onClick={this.compile}>Compile</Button>
+                                    <DropdownToggle
+                                        className="dropdown-toggle"
+                                        caret
+                                    >
+                                        {language ? language : "javascript"}
+                                    </DropdownToggle>
+                                    <DropdownMenu className="dropdown-menu">
+                                        {langChoices}
+                                    </DropdownMenu>
+                                </Dropdown>
+                                <Button onClick={this.compile}>Compile</Button>
+                            </ButtonGroup>
                         </Row>
                         <Row>
                             <Col>
@@ -155,9 +161,16 @@ class Challenge extends Component {
                             <Col>
                                 <div className="result">
                                     <ul>
-                                        <li>CPU Time: <span>{result.cpuTime}</span></li>
-                                        <li>Memory: <span>{result.memory}</span></li>
-                                        <li>Output: <span>{result.output}</span></li>
+                                        <li>
+                                            CPU Time:{" "}
+                                            <span>{result.cpuTime}</span>
+                                        </li>
+                                        <li>
+                                            Memory: <span>{result.memory}</span>
+                                        </li>
+                                        <li>
+                                            Output: <span>{result.output}</span>
+                                        </li>
                                     </ul>
                                 </div>
                             </Col>

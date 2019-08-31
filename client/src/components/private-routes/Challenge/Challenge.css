@@ -1,9 +1,13 @@
 .challenge {
-    min-width: 100vw;
+    width: 100vw;
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
     padding: 25px 0;
     padding-bottom: 50px;
+}
+
+.challenge .button-group {
+    margin: 0 auto !important;
 }
 
 .challenge-item {
@@ -13,6 +17,7 @@
 
 .challenge-item h2 {
     font-size: 1.7rem;
+    padding-top: 35px;
 }
 
 .challenge-item h3 {
@@ -21,11 +26,6 @@
 
 .challenge-item p {
     font-size: 1rem;
-}
-
-.challenge-row {
-    width: 50% !important;
-    margin: 0 auto !important;
 }
 
 .dropdown-toggle {
@@ -53,7 +53,7 @@
 .result {
     background: #282828;
     height: 400px;
-    width: 500px;
+    width: 600px;
     margin: 15px auto;
     margin-bottom: 25px;
     border: 1px solid white;
@@ -62,6 +62,7 @@
     justify-content: center;
     align-content: center;
     flex-direction: column;
+    overflow-y: auto;
 }
 
 .result ul {
@@ -83,13 +84,16 @@
         width: 90vw;
     }
 
-    .ace-editor {
+    .ace-editor,
+    .result {
         height: 300px !important;
-        width: 450px !important;
+        width: 350px !important;
+        margin: 15px auto !important;
+        font-size: 0.9rem;
     }
 
     .result {
-        height: 300px;
-        width: 450px;
+        justify-content: start;
+        padding-top: 15px;
     }
 }

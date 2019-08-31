@@ -1,7 +1,7 @@
 .challenges-page {
     min-height: 600px;
-    width: 100%;
-    margin: 25px 0;
+    width: 100vw;
+    margin: 25px auto;
     padding-top: 25px;
 }
 
@@ -40,7 +40,7 @@
     }
 
     .challenges-page table {
-        width: 80vw;
-        font-size: 12px;
+        width: 95vw;
+        font-size: 11px;
     }
 }

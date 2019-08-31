@@ -70,12 +70,12 @@ class Profile extends Component {
                             </Card>
                             <div className="info">
                                 <h3>Portfolio</h3>
-                                {website}
+                                <a href={website}>{website}</a>
                                 <h3>Github</h3>
-                                {github}
+                                <a href={github}>{github}</a>
                                 <h3>LinkedIn</h3>
-                                {linkedin}
-                                <h3>BIO</h3>
+                                <a href={linkedin}>{linkedin}</a>
+                                <h3>Bio</h3>
                                 <p>{bio}</p>
                             </div>
                         </Row>

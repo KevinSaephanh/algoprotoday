@@ -25,9 +25,8 @@ body {
 }
 
 .container {
-    min-height: 100vh;
-    padding-bottom: 50px;
-    position: relative;
+    min-height: 100%;
+    position: relative !important;
     margin: 0 !important;
     padding: 0 !important;
     color: whitesmoke !important;
@@ -55,7 +54,7 @@ body {
 @media (max-width: 700px) {
     .container .btn {
         font-size: 16px !important;
-        height: 35px !important;
+        height: 40px !important;
         width: 100px !important;
     }
 }
