@@ -7,6 +7,8 @@ const {
     generateAuthToken,
     verifyToken
 } = require("../middleware/auth");
+const nodemailer = require("nodemailer");
+const config = require("../../config").get(process.env.NODE_ENV);
 
 // REGISTER
 router.post("/register", async (req, res) => {
@@ -43,9 +45,70 @@ router.post("/register", async (req, res) => {
 
     try {
         await newUser.save();
-        res.status(200).json("New user added successfully");
+        //res.status(200).json("New user added successfully");
+
+        const transporter = nodemailer.createTransport({
+            service: "Sendgrid",
+            auth: config.MAIL_USER,
+            pass: config.MAIL_PASS
+        });
+        const mailOptions = {
+            from: "algoprotoday@gmail.com",
+            to: newUser.email,
+            subject: "Account Verification",
+            text: `Hello ${newUser.username}, \n\n Please verify your account by clicking the link: \nhttp://${config.HOST_URL}/verification/${newUser._id}`
+        };
+
+        await transporter.sendMail(mailOptions);
+        // res.status(200).json(
+        //     `A verificaiton email has been sent to ${newUser.username}`
+        // );
     } catch (err) {
         res.status(400).json(err);
+    }
+});
+
+// Email Verificaiton
+router.post("/verification/:id", async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const user = await User.findById(id);
+        await user.update({ isVerified: true });
+        res.status(200).json("User is now verified");
+    } catch (err) {
+        res.status(400).json("Could not verify user");
+    }
+});
+
+// Resending Verification Email
+router.post("/resend/:id", async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const user = await User.findById(id);
+        if (user.isVerified) {
+            res.status(200).json("User is already verified");
+        } else {
+            const transporter = nodemailer.createTransport({
+                service: "Sendgrid",
+                auth: config.MAIL_USER,
+                pass: config.MAIL_PASS
+            });
+            const mailOptions = {
+                from: "algoprotoday@gmail.com",
+                to: user.email,
+                subject: "Account Verification",
+                text: `Hello ${user.username}, \n\n Please verify your account by clicking the link: \nhttp://${config.HOST_URL}/verification/${user._id}`
+            };
+
+            await transporter.sendMail(mailOptions);
+            res.status(200).json(
+                `A verificaiton email has been sent to ${user.username}`
+            );
+        }
+    } catch (err) {
+        res.status(400).json("Could not verify user");
     }
 });
 
@@ -65,6 +128,12 @@ router.post("/login", async (req, res) => {
         user = await User.findOne({
             username: new RegExp("\\b" + username + "\\b", "i")
         });
+
+        // Check if user is unverified
+        if (!user.isVerified) {
+            res.status(400).json("User is not verified");
+        }
+
         await compare(password, user.password);
     } catch (error) {
         res.status(400).json("Username/password is incorrect");

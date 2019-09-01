@@ -18,16 +18,18 @@ const ChallengeTable = props => {
     });
 
     return (
-        <Table>
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Title</th>
-                    <th>Difficulty</th>
-                </tr>
-            </thead>
-            <tbody>{tableItems}</tbody>
-        </Table>
+        <div className="table-container">
+            <Table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Title</th>
+                        <th>Difficulty</th>
+                    </tr>
+                </thead>
+                <tbody>{tableItems}</tbody>
+            </Table>
+        </div>
     );
 };
 

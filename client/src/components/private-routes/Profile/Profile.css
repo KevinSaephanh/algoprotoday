@@ -1,5 +1,6 @@
 .profile {
     width: 100vw;
+    min-height: 600px;
     padding: 25px 0;
 }
 
@@ -16,19 +17,20 @@
 }
 
 .profile .card {
-    color: black;
+    color: white;
+    background: transparent;
     width: 350px !important;
     height: 300px;
     margin: 25px auto;
     text-align: start !important;
     font-weight: bold;
-    border: 4px solid navy;
+    border: 4px solid blueviolet;
 }
 
 .profile .card-top {
     display: flex;
     width: 100%;
-    border-bottom: 4px solid navy;
+    border-bottom: 4px solid blueviolet;
     padding: 10px;
 }
 
@@ -39,7 +41,8 @@
 
 .profile .card-top button {
     font-weight: bold;
-    border: 3px solid black;
+    color: white;
+    border: 3px solid white;
     border-radius: 5px;
     background: transparent;
 }
@@ -48,35 +51,46 @@
     font-size: 6rem;
     padding: 15px 0;
     width: 100%;
-    border-bottom: 3px solid navy;
+    border-bottom: 3px solid blueviolet;
     text-align: center;
+}
+
+.profile .card-text {
+    overflow-x: hidden;
 }
 
 .profile .card-title {
     font-size: 1.2rem;
+    overflow-x: hidden;
 }
 
 .profile .info {
     height: 300px;
-    width: 350px;
+    width: 300px;
     margin: 20px auto;
     font-size: 1.2rem;
     letter-spacing: 0.5px;
+    padding-left: 15px;
 }
 
 .profile .info h3 {
     font-size: 1.7rem;
-    padding: 5px 0;
+    padding-bottom: 5px;
+}
+
+.profile a {
+    color: blueviolet;
 }
 
 .profile a:hover {
     color: turquoise;
     transition: all 0.4s ease-in;
+    text-decoration: none;
 }
 
 .profile .info p {
     padding: 10px;
-    border: 3px solid navy;
+    border: 3px solid blueviolet;
     border-radius: 3px;
 }
 
@@ -108,5 +122,9 @@ textarea {
 @media (max-width: 700px) {
     .profile .row {
         width: 100vw !important;
+    }
+
+    .profile .info {
+        padding: 0;
     }
 }

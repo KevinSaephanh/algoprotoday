@@ -48,7 +48,6 @@ class Register extends Component {
         };
 
         this.props.register(newUser);
-        window.location.href = "/login";
     };
 
     render() {

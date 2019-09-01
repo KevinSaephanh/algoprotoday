@@ -12,7 +12,7 @@
 }
 
 .challenges-page table {
-    width: 800px;
+    width: 700px;
     color: white;
     font-size: 18px;
     font-weight: bold;
@@ -32,6 +32,18 @@
 .challenges-page .title:hover {
     color: turquoise;
     transition: all 0.4s ease-in;
+}
+
+.table-container {
+    overflow-y: scroll;
+    max-height: 700px;
+    padding-top: 50px;
+}
+
+.table-container th {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
 }
 
 @media (max-width: 700px) {

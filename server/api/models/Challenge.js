@@ -19,14 +19,6 @@ const ChallengeSchema = new mongoose.Schema({
         unique: true,
         minlength: 7,
         maxlength: 500
-    },
-    upvotes: {
-        type: Number,
-        default: 0
-    },
-    downvotes: {
-        type: Number,
-        default: 0
     }
 });
 

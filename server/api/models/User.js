@@ -40,9 +40,9 @@ const UserSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    isAdmin: {
+    isVerified: {
         type: Boolean,
-        default: false
+        default: true
     }
 });
 
