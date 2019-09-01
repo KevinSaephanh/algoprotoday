@@ -28,6 +28,8 @@ In development. Backend is fully functional, but frontend is incomplete. Needs m
 # Sample Code
 
 ## Screenshots
+![algoPT](https://user-images.githubusercontent.com/47619395/64060971-e2a58580-cb88-11e9-9eed-a00eaa5372af.png)
+![algoPT](https://user-images.githubusercontent.com/47619395/64060949-aa9e4280-cb88-11e9-9675-55a70aa8b11b.png)
 
 ## Authors
 
