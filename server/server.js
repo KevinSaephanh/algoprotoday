@@ -13,7 +13,8 @@ const Challenge = require("./api/routes/challenges");
 mongoose
     .connect(config.DATABASE, {
         useNewUrlParser: true,
-        useCreateIndex: true
+        useCreateIndex: true,
+        useFindAndModify: false
     })
     .then(() => console.log("MongoDB connection successful"))
     .catch(err => console.log(err));

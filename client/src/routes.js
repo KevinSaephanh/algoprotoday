@@ -6,6 +6,8 @@ import Home from "./components/Home/Home";
 import ChallengesPage from "./components/Challenges/ChallengesPage";
 import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
+import ErrorPage from "./components/Error";
+import Verification from "./components/Auth/Verification";
 
 // Private routes
 import PrivateRoute from "./components/private-routes/privateRoute";
@@ -21,6 +23,11 @@ const routes = () => {
                 <Route exact path="/challenges" component={ChallengesPage} />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/register" component={Register} />
+                <Route
+                    exact
+                    path="/verification/:token"
+                    component={Verification}
+                />
                 <PrivateRoute
                     exact
                     path="/challenges/:id"
@@ -36,6 +43,7 @@ const routes = () => {
                     path="/profile_edit/:username"
                     component={ProfileEdit}
                 ></PrivateRoute>
+                <Route component={ErrorPage} />
             </Switch>
         </BrowserRouter>
     );

@@ -7,6 +7,7 @@ const {
     generateAuthToken,
     verifyToken
 } = require("../middleware/auth");
+const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const config = require("../../config").get(process.env.NODE_ENV);
 
@@ -14,23 +15,22 @@ const config = require("../../config").get(process.env.NODE_ENV);
 router.post("/register", async (req, res) => {
     // Validate data
     const { errors, isValid } = validateRegister(req.body);
-
     if (!isValid) {
-        res.status(400).json(errors);
+        return res.status(400).json(errors);
     }
 
     const { username, email, password } = req.body;
 
-    // Check for duplicate username
+    //Check for duplicate username
     const usernameExists = await User.findOne({ username: username });
     if (usernameExists) {
-        res.status(400).json("Username is already in use");
+        return res.status(400).json("Username is already in use");
     }
 
     // Check for duplicate email
     const emailExists = await User.findOne({ email: email.toLowerCase() });
     if (emailExists) {
-        res.status(400).json("Email is already in use");
+        return res.status(400).json("Email is already in use");
     }
 
     // Hash password
@@ -45,39 +45,53 @@ router.post("/register", async (req, res) => {
 
     try {
         await newUser.save();
-        //res.status(200).json("New user added successfully");
 
-        const transporter = nodemailer.createTransport({
-            service: "Sendgrid",
-            auth: config.MAIL_USER,
-            pass: config.MAIL_PASS
+        // Generate token for email verification
+        const token = jwt.sign({ id: newUser._id }, config.SECRET, {
+            expiresIn: "1d"
         });
+        const url = `http://localhost:3000/verification/${token}`;
+
+        // Email transporter
+        const transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+                user: config.MAIL_USER,
+                pass: config.MAIL_PASS
+            }
+        });
+
+        // Email form
         const mailOptions = {
             from: "algoprotoday@gmail.com",
             to: newUser.email,
             subject: "Account Verification",
-            text: `Hello ${newUser.username}, \n\n Please verify your account by clicking the link: \nhttp://${config.HOST_URL}/verification/${newUser._id}`
+            text: `Hello ${newUser.username}, \n\nPlease verify your account by clicking the link below:\n${url}`
         };
 
         await transporter.sendMail(mailOptions);
-        // res.status(200).json(
-        //     `A verificaiton email has been sent to ${newUser.username}`
-        // );
+        console.log("SENDING EMAIL");
+        res.status(200).json(
+            `A verificaiton email has been sent to ${newUser.email}`
+        );
     } catch (err) {
-        res.status(400).json(err);
+        res.status(400).json(`Failed to send email to ${user.email}`);
     }
 });
 
 // Email Verificaiton
-router.post("/verification/:id", async (req, res) => {
-    const { id } = req.params;
-
+router.post("/verification/:token", async (req, res) => {
     try {
-        const user = await User.findById(id);
-        await user.update({ isVerified: true });
-        res.status(200).json("User is now verified");
+        const decoded = jwt.verify(req.params.token, config.SECRET);
+        await User.findOneAndUpdate(
+            { _id: decoded.id },
+            {
+                $set: { isVerified: true }
+            }
+        );
+        res.status(200).json("Congratulations! You are now a verified user!");
     } catch (err) {
-        res.status(400).json("Could not verify user");
+        res.status(400).json("I'm sorry we could not verify your account");
     }
 });
 
@@ -90,16 +104,25 @@ router.post("/resend/:id", async (req, res) => {
         if (user.isVerified) {
             res.status(200).json("User is already verified");
         } else {
+            // Generate token for email verification
+            const token = jwt.sign({ id: newUser._id }, config.SECRET, {
+                expiresIn: "1d"
+            });
+            const url = `http://localhost:3000/verification/${token}`;
+
+            //Create transporter
             const transporter = nodemailer.createTransport({
-                service: "Sendgrid",
+                service: "gmail",
                 auth: config.MAIL_USER,
                 pass: config.MAIL_PASS
             });
+
+            //Email format
             const mailOptions = {
                 from: "algoprotoday@gmail.com",
                 to: user.email,
                 subject: "Account Verification",
-                text: `Hello ${user.username}, \n\n Please verify your account by clicking the link: \nhttp://${config.HOST_URL}/verification/${user._id}`
+                text: `Hello ${user.username}, \n\n Please verify your account by clicking the link below:\n${url}`
             };
 
             await transporter.sendMail(mailOptions);
@@ -108,7 +131,7 @@ router.post("/resend/:id", async (req, res) => {
             );
         }
     } catch (err) {
-        res.status(400).json("Could not verify user");
+        res.status(400).json(`Failed to send email to ${user.email}`);
     }
 });
 
@@ -187,7 +210,7 @@ router.post("/:id", verifyToken, async (req, res) => {
 });
 
 // DELETE
-router.get("/:id", verifyToken, async (req, res) => {
+router.delete("/:id", async (req, res) => {
     try {
         await User.findByIdAndRemove(req.params.id);
         res.status(200).json("User successfully deleted");

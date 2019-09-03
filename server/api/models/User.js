@@ -3,7 +3,7 @@ const UserSchema = new mongoose.Schema({
     username: {
         type: String,
         unique: true,
-        minlength: 3,
+        minlength: 5,
         maxlength: 15,
         required: true
     },
@@ -42,7 +42,7 @@ const UserSchema = new mongoose.Schema({
     },
     isVerified: {
         type: Boolean,
-        default: true
+        default: false
     }
 });
 

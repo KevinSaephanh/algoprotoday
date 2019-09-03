@@ -24,7 +24,7 @@ class Register extends Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps.errors) {
             this.setState({
-                errors: nextProps.errors
+                errors: nextProps.user.errors
             });
         }
     }
@@ -36,7 +36,11 @@ class Register extends Component {
     };
 
     onClick = e => {
-        window.location.href = "/login";
+        const { name } = e.target;
+        if (name === "to-login") {
+            window.location.href = "/login";
+        } else {
+        }
     };
 
     onSubmit = e => {
@@ -91,7 +95,19 @@ class Register extends Component {
                     </Button>
                     <p>
                         Already have an account? Login
-                        <strong onClick={this.onClick}> here</strong>
+                        <strong name="to-login" onClick={this.onClick}>
+                            {" "}
+                            here
+                        </strong>
+                    </p>
+                    <p>
+                        Need another verification email? Click{" "}
+                        <strong
+                            name="resend-verification"
+                            onClick={this.onClick}
+                        >
+                            here
+                        </strong>
                     </p>
                 </Form>
             </div>

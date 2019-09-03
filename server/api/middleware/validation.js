@@ -12,18 +12,22 @@ const validateRegister = user => {
     // Check username
     if (Validator.isEmpty(user.username)) {
         errors.username = "Username is required";
+    } else if (user.username.length < 5) {
+        errors.username = "Username must be at least 5 characters long";
     }
 
     // Check email
     if (Validator.isEmpty(user.email)) {
         errors.email = "Email is required";
-    } else if (Validator.isEmail(user.email)) {
+    } else if (!Validator.isEmail(user.email)) {
         errors.email = "Email is invalid";
     }
 
     // Check password
     if (Validator.isEmpty(user.password)) {
         errors.password = "Password is required";
+    } else if (user.password.length < 7) {
+        errors.password = "Password must be at least 7 characters long";
     }
 
     return {

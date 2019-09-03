@@ -1,38 +1,13 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import { login } from "../../store/actions/authActions";
 import { Form, Label, Input, Button, Alert } from "reactstrap";
-import PropTypes from "prop-types";
 import "./Auth.css";
 
-class Login extends Component {
+class ResendEmail extends Component {
     state = {
         username: "",
         password: "",
-        errors: {}
+        error: ""
     };
-
-    componentDidMount() {
-        const { user } = this.props;
-        if (user.isAuthenticated) {
-            const { username } = user.user;
-            window.location.href = `/profile/${username}`;
-        }
-    }
-
-    // Check if user is already logged in
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.user.isAuthenticated) {
-            const { username } = nextProps.user.user;
-            this.props.history.push(`/profile/${username}`);
-        }
-
-        if (nextProps.user.errors) {
-            this.setState({
-                errors: nextProps.user.errors
-            });
-        }
-    }
 
     onChange = e => {
         this.setState({
@@ -40,17 +15,9 @@ class Login extends Component {
         });
     };
 
-    onClick = e => {
-        window.location.href = "/register";
-    };
-
     onSubmit = e => {
         e.preventDefault();
-        const userData = {
-            username: this.state.username,
-            password: this.state.password
-        };
-        this.props.login(userData);
+        
     };
 
     render() {
@@ -81,31 +48,13 @@ class Login extends Component {
                         />
                         {errors.password && <Alert>{errors.password}</Alert>}
                     </div>
-                    <Button className="btn" type="submit" name="login">
-                        Login
+                    <Button className="btn" type="submit">
+                        Send
                     </Button>
-                    <p>
-                        Don't have an account? Register
-                        <strong onClick={this.onClick}> here</strong>
-                    </p>
                 </Form>
             </div>
         );
     }
 }
 
-Login.propTypes = {
-    login: PropTypes.func.isRequired,
-    user: PropTypes.object.isRequired
-};
-
-const mapStateToProps = state => {
-    return {
-        user: state.auth
-    };
-};
-
-export default connect(
-    mapStateToProps,
-    { login }
-)(Login);
+export default ResendEmail;

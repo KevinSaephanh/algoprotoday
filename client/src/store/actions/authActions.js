@@ -90,10 +90,18 @@ export const getUserData = async id => {
 
 export const updateUser = async userData => {
     try {
-        console.log(userData);
         const res = await axios.post(`/api/users/${userData.id}`, userData);
         return res.data;
     } catch (err) {
         console.log(err);
+    }
+};
+
+export const verifyEmail = async token => {
+    try {
+        const res = await axios.post(`/api/users/verification/${token}`);
+        return res.data;
+    } catch (err) {
+        return err.response.data;
     }
 };

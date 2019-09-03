@@ -22,7 +22,7 @@ const generateAuthToken = user => {
         _id: user._id,
         username: user.username
     };
-    const token = jwt.sign(payload, config.SECRET, { expiresIn: "1h" });
+    const token = jwt.sign(payload, config.SECRET, { expiresIn: "2h" });
 
     return token;
 };
