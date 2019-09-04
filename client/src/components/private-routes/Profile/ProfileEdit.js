@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { Form, Label, Input, Button } from "reactstrap";
+import { Form, Label, Input, Button, Alert } from "reactstrap";
 import { connect } from "react-redux";
-import { updateUser, getUserData } from "../../../store/actions/authActions";
+import { updateProfile, getUserData } from "../../../store/actions/authActions";
 import PropTypes from "prop-types";
 import Loader from "../../Loader/Loader";
 
@@ -9,12 +9,11 @@ import "./Profile.css";
 
 class ProfileEdit extends Component {
     state = {
-        username: "",
-        email: "",
         website: "",
         github: "",
         linkedin: "",
         bio: "",
+        message: "",
         loading: true
     };
 
@@ -27,7 +26,6 @@ class ProfileEdit extends Component {
         // Fetch user data
         try {
             const userInfo = await getUserData(user.user._id);
-            console.log(userInfo);
             const {
                 username,
                 email,
@@ -58,10 +56,12 @@ class ProfileEdit extends Component {
 
     onSubmit = async e => {
         e.preventDefault();
+
         try {
             const {
                 username,
                 email,
+                password,
                 website,
                 github,
                 linkedin,
@@ -70,29 +70,26 @@ class ProfileEdit extends Component {
             const user = {
                 username,
                 email,
+                password,
                 website,
                 github,
                 linkedin,
                 bio,
                 id: this.props.user.user._id
             };
-            await updateUser(user);
-            //window.location.href = `/profile/${username}`;
+            const message = await updateProfile(user);
+            this.setState({
+                message
+            });
+
+            window.location.href = `/profile/${this.props.user.user.username}`;
         } catch (err) {
             console.log(err);
         }
     };
 
     render() {
-        const {
-            username,
-            email,
-            website,
-            github,
-            linkedin,
-            bio,
-            loading
-        } = this.state;
+        const { website, github, linkedin, bio, message, loading } = this.state;
 
         return (
             <div className="profile-edit">
@@ -100,20 +97,6 @@ class ProfileEdit extends Component {
                     <div>
                         <h2>Tell the World About Yourself</h2>
                         <Form onSubmit={this.onSubmit}>
-                            <Label>Username</Label>
-                            <Input
-                                type="text"
-                                name="username"
-                                onChange={this.onChange}
-                                placeholder={username}
-                            />
-                            <Label>Email</Label>
-                            <Input
-                                type="text"
-                                name="email"
-                                onChange={this.onChange}
-                                placeholder={email}
-                            />
                             <Label>Website</Label>
                             <Input
                                 type="text"
@@ -142,6 +125,7 @@ class ProfileEdit extends Component {
                                 onChange={this.onChange}
                                 placeholder={bio}
                             />
+                            {message && <Alert>{message}</Alert>}
                             <Button type="submit" onSubmit={this.onSubmit}>
                                 Update
                             </Button>
@@ -168,5 +152,5 @@ const mapStateToProps = state => {
 
 export default connect(
     mapStateToProps,
-    { getUserData, updateUser }
+    { getUserData, updateProfile }
 )(ProfileEdit);

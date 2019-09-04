@@ -6,6 +6,7 @@ import Home from "./components/Home/Home";
 import ChallengesPage from "./components/Challenges/ChallengesPage";
 import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
+import UpdateAcc from "./components/Auth/AccountAuth";
 import ErrorPage from "./components/Error";
 import Verification from "./components/Auth/Verification";
 
@@ -23,6 +24,7 @@ const routes = () => {
                 <Route exact path="/challenges" component={ChallengesPage} />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/register" component={Register} />
+                <Route exact path="/auth" component={UpdateAcc} />
                 <Route
                     exact
                     path="/verification/:token"

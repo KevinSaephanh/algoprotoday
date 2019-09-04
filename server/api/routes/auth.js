@@ -70,12 +70,11 @@ router.post("/register", async (req, res) => {
         };
 
         await transporter.sendMail(mailOptions);
-        console.log("SENDING EMAIL");
         res.status(200).json(
             `A verificaiton email has been sent to ${newUser.email}`
         );
     } catch (err) {
-        res.status(400).json(`Failed to send email to ${user.email}`);
+        res.status(400).json(`Failed to send email to ${newUser.email}`);
     }
 });
 
@@ -95,28 +94,30 @@ router.post("/verification/:token", async (req, res) => {
     }
 });
 
-// Resending Verification Email
-router.post("/resend/:id", async (req, res) => {
-    const { id } = req.params;
+// Resend Verification Email
+router.post("/resend_email/:email", async (req, res) => {
+    const { email } = req.params;
 
     try {
-        const user = await User.findById(id);
+        const user = await User.findOne({ email: email.toLowerCase() });
+
+        // Check if user is already verified
         if (user.isVerified) {
-            res.status(200).json("User is already verified");
+            res.status(400).json("User is already verified");
         } else {
             // Generate token for email verification
-            const token = jwt.sign({ id: newUser._id }, config.SECRET, {
+            const token = jwt.sign({ id: user._id }, config.SECRET, {
                 expiresIn: "1d"
             });
             const url = `http://localhost:3000/verification/${token}`;
-
             //Create transporter
             const transporter = nodemailer.createTransport({
                 service: "gmail",
-                auth: config.MAIL_USER,
-                pass: config.MAIL_PASS
+                auth: {
+                    user: config.MAIL_USER,
+                    pass: config.MAIL_PASS
+                }
             });
-
             //Email format
             const mailOptions = {
                 from: "algoprotoday@gmail.com",
@@ -124,14 +125,13 @@ router.post("/resend/:id", async (req, res) => {
                 subject: "Account Verification",
                 text: `Hello ${user.username}, \n\n Please verify your account by clicking the link below:\n${url}`
             };
-
             await transporter.sendMail(mailOptions);
             res.status(200).json(
                 `A verificaiton email has been sent to ${user.username}`
             );
         }
     } catch (err) {
-        res.status(400).json(`Failed to send email to ${user.email}`);
+        res.status(400).json("Failed to resend a verification email");
     }
 });
 
@@ -145,31 +145,28 @@ router.post("/login", async (req, res) => {
     }
 
     // Find username and password
-    let user;
     try {
         const { username, password } = req.body;
-        user = await User.findOne({
+        const user = await User.findOne({
             username: new RegExp("\\b" + username + "\\b", "i")
         });
 
-        // Check if user is unverified
-        if (!user.isVerified) {
-            res.status(400).json("User is not verified");
-        }
+        // Check if user is verified
+        if (user && user.isVerified) {
+            await compare(password, user.password);
 
-        await compare(password, user.password);
-    } catch (error) {
+            // Sign token
+            const token = generateAuthToken(user);
+            res.json({
+                token: "Bearer " + token
+            });
+        }
+    } catch (err) {
         res.status(400).json("Username/password is incorrect");
     }
-
-    // Sign token
-    const token = generateAuthToken(user);
-    res.json({
-        token: "Bearer " + token
-    });
 });
 
-// GET USERS
+// GET ALL USERS
 router.get("/", async (req, res) => {
     try {
         const users = await User.find();
@@ -189,19 +186,84 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-// UPDATE
-router.post("/:id", verifyToken, async (req, res) => {
-    const { username, email, bio, website, github, linkedin } = req.body;
-
+// GET USER BY EMAIL
+router.post("/account/:email", async (req, res) => {
     try {
+        // Generate new random password
+        let password = Math.random()
+            .toString(36)
+            .substr(7, 10);
+
+        // Set temp password to user
+        const { email } = req.params;
+        const user = await User.findOneAndUpdate(
+            { email: email.toLowerCase() },
+            {
+                $set: {
+                    password
+                }
+            }
+        );
+
+        //Create transporter
+        const transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+                user: config.MAIL_USER,
+                pass: config.MAIL_PASS
+            }
+        });
+
+        //Email format
+        const mailOptions = {
+            from: "algoprotoday@gmail.com",
+            to: user.email,
+            subject: "Account Information",
+            text: `Hello ${user.username}, \n\nHere are your account details: \nUsername: ${user.username} \nNew Password: ${password}`
+        };
+
+        await transporter.sendMail(mailOptions);
+        res.status(200).json(
+            `Your new account details have been sent to the following email: ${user.email}`
+        );
+    } catch (error) {
+        res.status(400).json("User could not be found");
+    }
+});
+
+// UPDATE AUTH
+router.post("/update_auth/:email", async (req, res) => {
+    try {
+        const { username, email, password, newPassword } = req.body;
+        const user = User.findOne({ password });
+        if (user) {
+            // Hash new password
+            const hashedPassword = await hashPassword(newPassword);
+
+            // Update user
+            user.update({
+                username,
+                email: email.toLowerCase(),
+                password: hashedPassword
+            });
+            res.status(200).json("Your account has been updated");
+        }
+    } catch (err) {
+        res.status(400).json("Unable to update your account");
+    }
+});
+
+// UPDATE PROFILE
+router.post("/update_profile/:id", verifyToken, async (req, res) => {
+    try {
+        const { bio, website, github, linkedin } = req.body;
         const user = {
-            username,
-            email: email.toLowerCase(),
             bio,
             website: website.toLowerCase(),
             github: github.toLowerCase(),
             linkedin: linkedin.toLowerCase()
         };
+
         await User.findByIdAndUpdate(req.params.id, user);
         res.status(200).json("User successfully updated");
     } catch (err) {
@@ -210,7 +272,7 @@ router.post("/:id", verifyToken, async (req, res) => {
 });
 
 // DELETE
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", verifyToken, async (req, res) => {
     try {
         await User.findByIdAndRemove(req.params.id);
         res.status(200).json("User successfully deleted");

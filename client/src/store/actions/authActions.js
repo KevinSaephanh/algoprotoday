@@ -84,22 +84,55 @@ export const getUserData = async id => {
         const res = await axios.get(`/api/users/${id}`);
         return res.data;
     } catch (err) {
-        console.log(err);
+        return err.response.data;
     }
 };
 
-export const updateUser = async userData => {
+export const updateAuth = async userData => {
     try {
-        const res = await axios.post(`/api/users/${userData.id}`, userData);
+        const res = await axios.post(
+            `/api/users/update_auth/${userData.email}`,
+            userData
+        );
         return res.data;
     } catch (err) {
-        console.log(err);
+        return err.response.data;
+    }
+};
+
+export const updateProfile = async userData => {
+    try {
+        const res = await axios.post(
+            `/api/users/update_profile/${userData.id}`,
+            userData
+        );
+        return res.data;
+    } catch (err) {
+        return err.response.data;
     }
 };
 
 export const verifyEmail = async token => {
     try {
         const res = await axios.post(`/api/users/verification/${token}`);
+        return res.data;
+    } catch (err) {
+        return err.response.data;
+    }
+};
+
+export const resendEmail = async email => {
+    try {
+        const res = await axios.post(`/api/users/resend_email/${email}`);
+        return res.data;
+    } catch (err) {
+        return err.response.data;
+    }
+};
+
+export const sendAccountDetails = async email => {
+    try {
+        const res = await axios.post(`/api/users/account/${email}`);
         return res.data;
     } catch (err) {
         return err.response.data;

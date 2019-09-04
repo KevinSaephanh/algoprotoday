@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { register } from "../../store/actions/authActions";
 import { Form, Label, Input, Button, Alert } from "reactstrap";
 import PropTypes from "prop-types";
+import { resendEmail } from "../../store/actions/authActions";
 import "./Auth.css";
 
 class Register extends Component {
@@ -10,6 +11,7 @@ class Register extends Component {
         username: "",
         email: "",
         password: "",
+        verificationMsg: "",
         errors: {}
     };
 
@@ -21,8 +23,14 @@ class Register extends Component {
         }
     }
 
+    // Check if user is already logged in
     componentWillReceiveProps(nextProps) {
-        if (nextProps.errors) {
+        if (nextProps.user.isAuthenticated) {
+            const { username } = nextProps.user.user;
+            this.props.history.push(`/profile/${username}`);
+        }
+
+        if (nextProps.user.errors) {
             this.setState({
                 errors: nextProps.user.errors
             });
@@ -35,12 +43,21 @@ class Register extends Component {
         });
     };
 
-    onClick = e => {
-        const { name } = e.target;
-        if (name === "to-login") {
-            window.location.href = "/login";
-        } else {
+    onClick = async e => {
+        const { email } = this.state;
+
+        // Check if email input is null
+        if (email.length < 1) {
+            this.setState({
+                verificationMsg: "Input your email"
+            });
+            return;
         }
+
+        const verificationMsg = await resendEmail(email);
+        this.setState({
+            verificationMsg
+        });
     };
 
     onSubmit = e => {
@@ -52,10 +69,16 @@ class Register extends Component {
         };
 
         this.props.register(newUser);
+
+        if (this.state.errors === null) {
+            this.setState({
+                verificationMsg: `A verification email has been sent to ${this.state.email}`
+            });
+        }
     };
 
     render() {
-        const { errors } = this.state;
+        const { errors, verificationMsg } = this.state;
 
         return (
             <div className="auth">
@@ -70,7 +93,7 @@ class Register extends Component {
                         onChange={this.onChange}
                     />
                     {errors.username && (
-                        <Alert className="input-alert">{errors.username}</Alert>
+                        <Alert color="info">{errors.username}</Alert>
                     )}
                     <Label>Email</Label>
                     <Input
@@ -94,21 +117,10 @@ class Register extends Component {
                         Register
                     </Button>
                     <p>
-                        Already have an account? Login
-                        <strong name="to-login" onClick={this.onClick}>
-                            {" "}
-                            here
-                        </strong>
+                        Need another verification email? Enter your email and
+                        click <strong onClick={this.onClick}>here</strong>
                     </p>
-                    <p>
-                        Need another verification email? Click{" "}
-                        <strong
-                            name="resend-verification"
-                            onClick={this.onClick}
-                        >
-                            here
-                        </strong>
-                    </p>
+                    {verificationMsg && <Alert>{verificationMsg}</Alert>}
                 </Form>
             </div>
         );

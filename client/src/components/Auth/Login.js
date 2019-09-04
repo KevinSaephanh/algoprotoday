@@ -41,7 +41,7 @@ class Login extends Component {
     };
 
     onClick = e => {
-        window.location.href = "/register";
+        window.location.href = "/auth";
     };
 
     onSubmit = e => {
@@ -68,7 +68,9 @@ class Login extends Component {
                             placeholder="Enter username"
                             onChange={this.onChange}
                         />{" "}
-                        {errors.username && <Alert>{errors.username}</Alert>}
+                        {errors.username && (
+                            <Alert>{errors.username}</Alert>
+                        )}
                     </div>
                     <div className="input-field">
                         <Label>Password</Label>
@@ -79,13 +81,15 @@ class Login extends Component {
                             placeholder="Enter password"
                             onChange={this.onChange}
                         />
-                        {errors.password && <Alert>{errors.password}</Alert>}
+                        {errors.password && (
+                            <Alert>{errors.password}</Alert>
+                        )}
                     </div>
                     <Button className="btn" type="submit" name="login">
                         Login
                     </Button>
                     <p>
-                        Don't have an account? Register
+                        Forgot your username and/or password? Click
                         <strong onClick={this.onClick}> here</strong>
                     </p>
                 </Form>

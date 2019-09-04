@@ -5,8 +5,9 @@ const config = require("../../config").get(process.env.NODE_ENV);
 // Compare candidatePassword with associated user password
 const compare = async (candidatePassword, encrypted) => {
     const isMatch = await bcrypt.compare(candidatePassword, encrypted);
+    
     if (!isMatch) {
-        throw "Invalid username/password";
+        return "Invalid password!";
     }
 };
 

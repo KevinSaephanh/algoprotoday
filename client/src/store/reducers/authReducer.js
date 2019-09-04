@@ -12,7 +12,7 @@ import isEmpty from "is-empty";
 const initState = {
     isAuthenticated: false,
     user: {},
-    errors: ""
+    errors: {}
 };
 
 export default (state = initState, action) => {
