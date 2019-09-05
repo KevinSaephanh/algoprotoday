@@ -11,7 +11,7 @@ import ErrorPage from "./components/Error";
 import Verification from "./components/Auth/Verification";
 
 // Private routes
-import PrivateRoute from "./components/private-routes/privateRoute";
+import PrivateRoute from "./components/private-routes/PrivateRoute";
 import Profile from "./components/private-routes/Profile/Profile";
 import ProfileEdit from "./components/private-routes/Profile/ProfileEdit";
 import Challenge from "./components/private-routes/Challenge/Challenge";
