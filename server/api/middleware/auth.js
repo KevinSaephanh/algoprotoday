@@ -1,11 +1,11 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const config = require("../../config").get(process.env.NODE_ENV);
+const config = require("../../config");
 
 // Compare candidatePassword with associated user password
 const compare = async (candidatePassword, encrypted) => {
     const isMatch = await bcrypt.compare(candidatePassword, encrypted);
-    
+
     if (!isMatch) {
         return "Invalid password!";
     }
@@ -23,7 +23,9 @@ const generateAuthToken = user => {
         _id: user._id,
         username: user.username
     };
-    const token = jwt.sign(payload, config.SECRET, { expiresIn: "2h" });
+    const token = jwt.sign(payload, process.env.SECRET || config.SECRET, {
+        expiresIn: "2h"
+    });
 
     return token;
 };
@@ -38,7 +40,7 @@ const verifyToken = (req, res, next) => {
 
     // Validate jwt
     try {
-        const decoded = jwt.verify(token, config.SECRET);
+        const decoded = jwt.verify(token, process.env.SECRET || config.SECRET);
         req.user = decoded;
         next();
     } catch (err) {

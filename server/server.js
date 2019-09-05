@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const config = require("./config").get(process.env.NODE_ENV);
+const config = require("./config");
 const app = express();
 
 // Models
@@ -10,7 +10,7 @@ const Challenge = require("./api/routes/challenges");
 
 // Connect to DB
 mongoose
-    .connect(config.DATABASE, {
+    .connect(process.env.DATABASE || config.DATABASE, {
         useNewUrlParser: true,
         useCreateIndex: true,
         useFindAndModify: false
