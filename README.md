@@ -23,6 +23,11 @@ This is a standard programming learning platform that preps users for upcoming t
 
 # Sample Code
 
+![sample2](https://user-images.githubusercontent.com/47619395/64321892-52938180-cf76-11e9-9c68-fbc475d47704.png)
+![sample3](https://user-images.githubusercontent.com/47619395/64321893-52938180-cf76-11e9-855f-510b4959db29.png)
+![sample1](https://user-images.githubusercontent.com/47619395/64321894-532c1800-cf76-11e9-9b95-2b102cbeab27.png)
+
+
 ## Screenshots
 
 ![algoPT](https://user-images.githubusercontent.com/47619395/64060971-e2a58580-cb88-11e9-9eed-a00eaa5372af.png)
