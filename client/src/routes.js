@@ -1,20 +1,30 @@
-import React from "react";
+import React, { lazy } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
-// Components
-import Home from "./components/Home/Home";
-import ChallengesPage from "./components/Challenges/ChallengesPage";
-import Login from "./components/Auth/Login";
-import Register from "./components/Auth/Register";
-import UpdateAcc from "./components/Auth/AccountAuth";
-import ErrorPage from "./components/Error";
-import Verification from "./components/Auth/Verification";
+// Public routes
+const Home = lazy(() => import("./components/Home/Home"));
+const ChallengesPage = lazy(() =>
+    import("./components/Challenges/ChallengesPage")
+);
+const Login = lazy(() => import("./components/Auth/Login"));
+const Register = lazy(() => import("./components/Auth/Register"));
+const UpdateAcc = lazy(() => import("./components/Auth/AccountAuth"));
+const Verification = lazy(() => import("./components/Auth/Verification"));
+const ErrorPage = lazy(() => import("./components/Error"));
 
 // Private routes
-import PrivateRoute from "./components/private-routes/PrivateRoute";
-import Profile from "./components/private-routes/Profile/Profile";
-import ProfileEdit from "./components/private-routes/Profile/ProfileEdit";
-import Challenge from "./components/private-routes/Challenge/Challenge";
+const PrivateRoute = lazy(() =>
+    import("./components/private-routes/PrivateRoute")
+);
+const Profile = lazy(() =>
+    import("./components/private-routes/Profile/Profile")
+);
+const ProfileEdit = lazy(() =>
+    import("./components/private-routes/Profile/ProfileEdit")
+);
+const Challenge = lazy(() =>
+    import("./components/private-routes/Challenge/Challenge")
+);
 
 const routes = () => {
     return (

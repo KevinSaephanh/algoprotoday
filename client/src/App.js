@@ -1,17 +1,18 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { Container } from "reactstrap";
 import { Provider } from "react-redux";
 import { loadUser, logout } from "./store/actions/authActions";
 import setAuthToken from "./utils/setAuthToken";
 import jwtDecode from "jwt-decode";
 import store from "./store/store";
-
-import AppNavbar from "./components/Navbar/Navbar";
-import Footer from "./components/Footer/Footer";
-import Routes from "./routes";
+import Loader from "./components/Loader/Loader";
 
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
+
+const AppNavbar = lazy(() => import("./components/Navbar/Navbar"));
+const Footer = lazy(() => import("./components/Footer/Footer"));
+const Routes = lazy(() => import("./routes"));
 
 // Check if user is logged in
 if (localStorage.jwtToken) {
@@ -38,9 +39,11 @@ const App = () => {
     return (
         <Provider store={store}>
             <Container>
-                <AppNavbar />
-                <Routes />
-                <Footer />
+                <Suspense fallback={<Loader />}>
+                    <AppNavbar />
+                    <Routes />
+                    <Footer />
+                </Suspense>
             </Container>
         </Provider>
     );
