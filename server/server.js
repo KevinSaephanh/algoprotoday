@@ -22,7 +22,6 @@ mongoose
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static("client/build"));
 
 // Use routes
 app.use("/api/users", Auth);
@@ -30,11 +29,11 @@ app.use("/api/challenges", Challenge);
 
 // Serve static assets when in production
 if (process.env.NODE_ENV === "production") {
+    app.use(express.static("client/build"));
+
     const path = require("path");
-    app.get("/*", (req, res) => {
-        res.sendfile(
-            path.resolve(__dirname, "../client", "build", "index.html")
-        );
+    app.get("*", (req, res) => {
+        res.sendFile(path.join(__dirname, "../client", "build", "index.html"));
     });
 }
 
