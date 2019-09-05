@@ -21,7 +21,7 @@ export const register = userData => {
         } catch (err) {
             dispatch({
                 type: REGISTER_FAIL,
-                payload: err.response.data
+                payload: err
             });
         }
     };

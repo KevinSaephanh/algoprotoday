@@ -67,14 +67,11 @@ class Register extends Component {
             email: this.state.email,
             password: this.state.password
         };
-
         this.props.register(newUser);
 
-        if (this.state.errors === null) {
-            this.setState({
-                verificationMsg: `A verification email has been sent to ${this.state.email}`
-            });
-        }
+        this.setState({
+            verificationMsg: `A verification email has been sent to ${this.state.email}`
+        });
     };
 
     render() {

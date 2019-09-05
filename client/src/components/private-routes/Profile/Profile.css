@@ -120,6 +120,10 @@ textarea {
 }
 
 @media (max-width: 700px) {
+    .profile {
+        height: 900px;
+    }
+
     .profile .row {
         width: 100vw !important;
     }

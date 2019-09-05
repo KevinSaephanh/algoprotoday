@@ -22,8 +22,8 @@ const ChallengeTable = props => {
             <Table>
                 <thead>
                     <tr>
-                        <th>#</th>
-                        <th>Title</th>
+                        <th style={{ width: "15%" }}>#</th>
+                        <th style={{ width: "60%" }}>Title</th>
                         <th>Difficulty</th>
                     </tr>
                 </thead>

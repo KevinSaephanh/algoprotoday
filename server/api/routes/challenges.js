@@ -24,7 +24,7 @@ router.get("/:id", verifyToken, async (req, res) => {
 });
 
 // CREATE A CHALLENGE
-router.post("/create", verifyToken, async (req, res) => {
+router.post("/create", async (req, res) => {
     const challenge = new Challenge(req.body);
 
     const duplicate = await Challenge.findOne({ title: challenge.title });
