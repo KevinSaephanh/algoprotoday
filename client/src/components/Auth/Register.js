@@ -110,6 +110,7 @@ class Register extends Component {
                         onChange={this.onChange}
                     />
                     {errors.password && <Alert>{errors.password}</Alert>}
+                    {verificationMsg && <Alert>{verificationMsg}</Alert>}
                     <Button className="btn" type="submit" name="register">
                         Register
                     </Button>
@@ -117,7 +118,6 @@ class Register extends Component {
                         Need another verification email? Enter your email and
                         click <strong onClick={this.onClick}>here</strong>
                     </p>
-                    {verificationMsg && <Alert>{verificationMsg}</Alert>}
                 </Form>
             </div>
         );
