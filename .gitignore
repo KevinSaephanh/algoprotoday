@@ -6,6 +6,7 @@ node_modules/*
 /.pnp
 .pnp.js
 /server/config.js
+/server/.env
 *.json
 
 # testing
