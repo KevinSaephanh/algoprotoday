@@ -28,9 +28,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/api/users", Auth);
 app.use("/api/challenges", Challenge);
 
+// Serve static assets when in production
 if (process.env.NODE_ENV === "production") {
     // Set static folder
-    app.use(express.static("client/build"));
+    app.use(express.static("../client/build"));
 
     app.get("/*", (req, res) => {
         res.sendfile(
