@@ -1,7 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const path = require("path");
 const config = require("./config").get(process.env.NODE_ENV);
 const app = express();
 
@@ -23,6 +22,7 @@ mongoose
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(express.static("client/build"));
 
 // Use routes
 app.use("/api/users", Auth);
@@ -30,9 +30,7 @@ app.use("/api/challenges", Challenge);
 
 // Serve static assets when in production
 if (process.env.NODE_ENV === "production") {
-    // Set static folder
-    app.use("/", express.static(path.join(__dirname, "/client/build")));
-
+    const path = require("path");
     app.get("/*", (req, res) => {
         res.sendfile(
             path.resolve(__dirname, "../client", "build", "index.html")

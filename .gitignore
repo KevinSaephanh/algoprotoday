@@ -7,7 +7,7 @@ node_modules/*
 .pnp.js
 /server/config.js
 /server/.env
-*.json
+package-lock.json
 
 # testing
 /coverage
