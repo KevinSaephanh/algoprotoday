@@ -22,16 +22,25 @@ class Login extends Component {
 
     // Check if user is already logged in
     componentWillReceiveProps(nextProps) {
+        // Redirect user if they are logged in
         if (nextProps.user.isAuthenticated) {
             const { username } = nextProps.user.user;
             this.props.history.push(`/profile/${username}`);
         }
 
+        // Set errors
         if (nextProps.user.errors) {
             this.setState({
                 errors: nextProps.user.errors
             });
         }
+
+        // Clear errors
+        setTimeout(() => {
+            this.setState({
+                errors: {}
+            });
+        }, 5000);
     }
 
     onChange = e => {
@@ -59,6 +68,7 @@ class Login extends Component {
             <div className="auth">
                 <h1>Login</h1>
                 <Form onSubmit={this.onSubmit}>
+                    {errors.invalid && <Alert>{errors.invalid}</Alert>}
                     <div className="input-field">
                         <Label>Username</Label>
                         <Input
@@ -68,9 +78,7 @@ class Login extends Component {
                             placeholder="Enter username"
                             onChange={this.onChange}
                         />{" "}
-                        {errors.username && (
-                            <Alert>{errors.username}</Alert>
-                        )}
+                        {errors.username && <Alert>{errors.username}</Alert>}
                     </div>
                     <div className="input-field">
                         <Label>Password</Label>
@@ -81,9 +89,7 @@ class Login extends Component {
                             placeholder="Enter password"
                             onChange={this.onChange}
                         />
-                        {errors.password && (
-                            <Alert>{errors.password}</Alert>
-                        )}
+                        {errors.password && <Alert>{errors.password}</Alert>}
                     </div>
                     <Button className="btn" type="submit" name="login">
                         Login

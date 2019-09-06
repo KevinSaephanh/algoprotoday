@@ -4,11 +4,7 @@ const config = require("../../config/prod");
 
 // Compare candidatePassword with associated user password
 const compare = async (candidatePassword, encrypted) => {
-    const isMatch = await bcrypt.compare(candidatePassword, encrypted);
-
-    if (!isMatch) {
-        return "Invalid password!";
-    }
+    return await bcrypt.compare(candidatePassword, encrypted);
 };
 
 // Hash password using salt

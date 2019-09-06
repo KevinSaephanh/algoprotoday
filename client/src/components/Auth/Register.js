@@ -25,16 +25,32 @@ class Register extends Component {
 
     // Check if user is already logged in
     componentWillReceiveProps(nextProps) {
+        // Redirect user if they are logged in
         if (nextProps.user.isAuthenticated) {
             const { username } = nextProps.user.user;
             this.props.history.push(`/profile/${username}`);
         }
 
+        // If errors are null, send verification message
+        if (nextProps.user.errors === null) {
+            this.setState({
+                verificationMsg: `A verification email has been sent to ${this.state.email}`
+            });
+        }
+
+        // Set errors
         if (nextProps.user.errors) {
             this.setState({
                 errors: nextProps.user.errors
             });
         }
+
+        // Clear errors
+        setTimeout(() => {
+            this.setState({
+                errors: {}
+            });
+        }, 5000);
     }
 
     onChange = e => {
@@ -68,10 +84,6 @@ class Register extends Component {
             password: this.state.password
         };
         this.props.register(newUser);
-
-        this.setState({
-            verificationMsg: `A verification email has been sent to ${this.state.email}`
-        });
     };
 
     render() {

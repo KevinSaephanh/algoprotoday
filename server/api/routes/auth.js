@@ -14,24 +14,12 @@ const config = require("../../config/prod");
 // REGISTER
 router.post("/register", async (req, res) => {
     // Validate data
-    const { errors, isValid } = validateRegister(req.body);
+    const { errors, isValid } = await validateRegister(req.body);
     if (!isValid) {
         return res.status(400).json(errors);
     }
 
     const { username, email, password } = req.body;
-
-    //Check for duplicate username
-    const usernameExists = await User.findOne({ username: username });
-    if (usernameExists) {
-        return res.status(400).json("Username is already in use");
-    }
-
-    // Check for duplicate email
-    const emailExists = await User.findOne({ email: email.toLowerCase() });
-    if (emailExists) {
-        return res.status(400).json("Email is already in use");
-    }
 
     // Hash password
     const hashedPassword = await hashPassword(password);
@@ -103,7 +91,7 @@ router.post("/resend_email/:email", async (req, res) => {
 
         // Check if user is already verified
         if (user.isVerified) {
-            res.status(400).json("User is already verified");
+            return res.status(400).json("User is already verified");
         } else {
             // Generate token for email verification
             const token = jwt.sign({ id: user._id }, config.SECRET, {
@@ -138,10 +126,9 @@ router.post("/resend_email/:email", async (req, res) => {
 // LOGIN
 router.post("/login", async (req, res) => {
     // Validate data
-    const { errors, isValid } = validateLogin(req.body);
-
+    const { errors, isValid } = await validateLogin(req.body);
     if (!isValid) {
-        res.status(400).json(errors);
+        return res.status(400).json(errors);
     }
 
     // Find username and password
@@ -151,18 +138,23 @@ router.post("/login", async (req, res) => {
             username: new RegExp("\\b" + username + "\\b", "i")
         });
 
+        if (!user) {
+            res.status(400).json({ invalid: "Username/password is incorrect" });
+        }
+
         // Check if user is verified
         if (user && user.isVerified) {
-            await compare(password, user.password);
-
-            // Sign token
-            const token = generateAuthToken(user);
-            res.json({
-                token: "Bearer " + token
-            });
+            const isMatch = await compare(password, user.password);
+            if (isMatch) {
+                // Sign token
+                const token = generateAuthToken(user);
+                res.json({
+                    token: "Bearer " + token
+                });
+            }
         }
     } catch (err) {
-        res.status(400).json("Username/password is incorrect");
+        res.status(400).json({ invalid: "Username/password is incorrect" });
     }
 });
 

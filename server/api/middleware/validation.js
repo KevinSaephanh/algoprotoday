@@ -1,7 +1,8 @@
 const Validator = require("validator");
 const isEmpty = require("is-empty");
+const User = require("../models/User");
 
-const validateRegister = user => {
+const validateRegister = async user => {
     let errors = {};
 
     // Convert empty fields to empty string
@@ -30,13 +31,27 @@ const validateRegister = user => {
         errors.password = "Password must be at least 7 characters long";
     }
 
+    //Check for duplicate username
+    try {
+        await User.findOne({ username: username });
+    } catch (err) {
+        errors.username = "Username is already in use";
+    }
+
+    // Check for duplicate email
+    try {
+        await User.findOne({ email: email.toLowerCase() });
+    } catch (err) {
+        errors.email = "Email is already in use";
+    }
+
     return {
         errors,
         isValid: isEmpty(errors)
     };
 };
 
-const validateLogin = user => {
+const validateLogin = async user => {
     let errors = {};
 
     // Convert empty fields to empty string
