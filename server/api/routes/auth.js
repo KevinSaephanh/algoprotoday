@@ -9,7 +9,7 @@ const {
 } = require("../middleware/auth");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
-const config = require("../../config/config");
+const config = require("../../config/prod");
 
 // REGISTER
 router.post("/register", async (req, res) => {
@@ -50,7 +50,7 @@ router.post("/register", async (req, res) => {
         const token = jwt.sign({ id: newUser._id }, config.SECRET, {
             expiresIn: "1d"
         });
-        const url = `http://localhost:3000/verification/${token}`;
+        const url = `${config.HOST}/verification/${token}`;
 
         // Email transporter
         const transporter = nodemailer.createTransport({
@@ -109,7 +109,7 @@ router.post("/resend_email/:email", async (req, res) => {
             const token = jwt.sign({ id: user._id }, config.SECRET, {
                 expiresIn: "1d"
             });
-            const url = `http://localhost:3000/verification/${token}`;
+            const url = `${config.HOST}/verification/${token}`;
             //Create transporter
             const transporter = nodemailer.createTransport({
                 service: "gmail",

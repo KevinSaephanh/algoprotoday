@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const config = require("../../config/dev");
+const config = require("../../config/prod");
 
 // Compare candidatePassword with associated user password
 const compare = async (candidatePassword, encrypted) => {
