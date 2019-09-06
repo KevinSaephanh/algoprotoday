@@ -9,7 +9,7 @@ const {
 } = require("../middleware/auth");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
-const config = require("../../config");
+const config = require("../../config/config");
 
 // REGISTER
 router.post("/register", async (req, res) => {
@@ -47,21 +47,17 @@ router.post("/register", async (req, res) => {
         await newUser.save();
 
         // Generate token for email verification
-        const token = jwt.sign(
-            { id: newUser._id },
-            process.env.SECRET || config.SECRET,
-            {
-                expiresIn: "1d"
-            }
-        );
+        const token = jwt.sign({ id: newUser._id }, config.SECRET, {
+            expiresIn: "1d"
+        });
         const url = `http://localhost:3000/verification/${token}`;
 
         // Email transporter
         const transporter = nodemailer.createTransport({
             service: "gmail",
             auth: {
-                user: process.env.MAIL_USER || config.MAIL_USER,
-                pass: process.env.MAIL_PASS || config.MAIL_PASS
+                user: config.MAIL_USER,
+                pass: config.MAIL_PASS
             }
         });
 
@@ -110,20 +106,16 @@ router.post("/resend_email/:email", async (req, res) => {
             res.status(400).json("User is already verified");
         } else {
             // Generate token for email verification
-            const token = jwt.sign(
-                { id: user._id },
-                process.env.SECRET || config.SECRET,
-                {
-                    expiresIn: "1d"
-                }
-            );
+            const token = jwt.sign({ id: user._id }, config.SECRET, {
+                expiresIn: "1d"
+            });
             const url = `http://localhost:3000/verification/${token}`;
             //Create transporter
             const transporter = nodemailer.createTransport({
                 service: "gmail",
                 auth: {
-                    user: process.env.MAIL_USER || config.MAIL_USER,
-                    pass: process.env.MAIL_PASS || config.MAIL_PASS
+                    user: config.MAIL_USER,
+                    pass: config.MAIL_PASS
                 }
             });
             //Email format
@@ -217,8 +209,8 @@ router.post("/account/:email", async (req, res) => {
         const transporter = nodemailer.createTransport({
             service: "gmail",
             auth: {
-                user: process.env.MAIL_USER || config.MAIL_USER,
-                pass: process.env.MAIL_PASS || config.MAIL_PASS
+                user: config.MAIL_USER,
+                pass: config.MAIL_PASS
             }
         });
 

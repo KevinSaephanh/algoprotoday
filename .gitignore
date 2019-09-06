@@ -5,8 +5,7 @@
 node_modules/*
 /.pnp
 .pnp.js
-/server/config.js
-/server/.env
+/server/config/dev.js
 package-lock.json
 
 # testing
