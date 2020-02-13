@@ -20,7 +20,6 @@ class Login extends Component {
         }
     }
 
-    // Check if user is already logged in
     componentWillReceiveProps(nextProps) {
         // Redirect user if they are logged in
         if (nextProps.user.isAuthenticated) {
